@@ -10,7 +10,7 @@ class Program
         int counterCol = 1;
         
         Console.WriteLine("Enter number N: ");
-        while (!int.TryParse(Console.ReadLine(), out n) || (n <= 1) || (n >= 20))
+        while (!int.TryParse(Console.ReadLine(), out n) || (n < 1) || (n > 20))
         {
             Console.WriteLine("Invalid input. Please enter a valid integer in range [1, 20]: ");
         }
