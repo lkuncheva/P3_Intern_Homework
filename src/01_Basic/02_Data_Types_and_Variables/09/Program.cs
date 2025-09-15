@@ -6,15 +6,14 @@ class Program
     {
         int a = 5;
         int b = 10;
-        int c;
 
         Console.WriteLine("Before Swap:");
         Console.WriteLine($"a = {a}\n" +
                           $"b = {b}\n");
 
-        c = a;
-        a = b;
-        b = c;
+        a = a + b;
+        b = a - b;
+        a = a - b;
 
         Console.WriteLine("After Swap:");
         Console.WriteLine($"a = {a}\n" +
