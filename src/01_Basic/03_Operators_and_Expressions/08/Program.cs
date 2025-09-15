@@ -15,10 +15,16 @@ class Program
         }
 
         if (N == 2)
-            isPrime = true;
-        else if (N > 1)
         {
-            for (int i = 2; i < N; i++)
+            isPrime = true;
+        }
+        else if (N % 2 == 0)
+        {
+            isPrime = false;
+        }
+        else if (N > 2)
+        {
+            for (int i = 3; i <= Math.Sqrt(N); i++)
             {
                 if (N % i == 0)
                 {
@@ -28,9 +34,10 @@ class Program
             }
         }
         else
+        {
             isPrime = false;
-
+        }
+   
         Console.WriteLine(isPrime);
-
     }
 }

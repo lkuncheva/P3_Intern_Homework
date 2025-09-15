@@ -6,7 +6,9 @@ class Program
 {
     static void Main(string[] args)
     {
-        double a, b, c;
+        double a;
+        double b;
+        double c;
 
         Console.WriteLine("Enter a number: ");
         while (!double.TryParse(Console.ReadLine(), out a) || (a < -1000 || a > 1000))
@@ -30,26 +32,36 @@ class Program
         {
             Console.Write(a + " ");
             if(b > c)
+            {
                 Console.WriteLine(b + " " + c);
+            }                
             else
-                Console.WriteLine(c + " " + c);
+            {
+                Console.WriteLine(c + " " + b);
+            }                
         }
         else if (b > a && b > c)
         {
             Console.Write(b + " ");
             if (a > c)
+            {
                 Console.WriteLine(a + " " + c);
+            }                
             else
+            {
                 Console.WriteLine(c + " " + a);
+            }                
         }
         else
         {
             if(a > b)
+            {
                 Console.WriteLine(c + " " + a + " " + b);
+            }                
             else
+            {
                 Console.WriteLine(c + " " + b + " " + a);
+            }                
         }
-
-
     }
 }

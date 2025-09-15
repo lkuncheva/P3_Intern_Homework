@@ -2,74 +2,85 @@
 
 class Manager
 {
-    public string firstName, lastName, phoneNumber;
-    public int age;
+    private string firstName, lastName, phoneNumber;
+    private int age;
 
-
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string PhoneNumber { get; set; }
+    public int Age { get; set; }
 }
 
 class Company
 {
+    private Manager manager;
+    private string name, address, phoneNumber, webSite;
+    private string? faxNumber;
 
-    public Manager manager;
-    public string name, address, phoneNumber, webSite;
-    public string? faxNumber;
+    public Manager Manager { get; set; }
+    public string Name { get; set; }
+    public string Address { get; set; }
+    public string PhoneNumber { get; set; }
+    public string WebSite { get; set; }
+    public string? FaxNumber { get; set; }
 
     public override string ToString()
     {
-
         return "\nCompany Details:\n" +
                "------------------\n\n" +
-               $"Company Name: {name}\n" +
-               $"Company Address: {address}\n" +
-               $"Company Phone Number: {phoneNumber}\n" +
-               $"Company Fax Number: {faxNumber}\n" +
-               $"Company Web Site: {webSite}\n" +
-               $"Manager First Name: {manager.firstName}\n" +
-               $"Manager Last Name: {manager.lastName}\n" +
-               $"Manager Age: {manager.age}\n" +
-               $"Manager Phone Number:{manager.phoneNumber}";
+               $"Company Name: {Name}\n" +
+               $"Company Address: {Address}\n" +
+               $"Company Phone Number: {PhoneNumber}\n" +
+               $"Company Fax Number: {FaxNumber}\n" +
+               $"Company Web Site: {WebSite}\n" +
+               $"Manager First Name: {Manager.FirstName}\n" +
+               $"Manager Last Name: {Manager.LastName}\n" +
+               $"Manager Age: {Manager.Age}\n" +
+               $"Manager Phone Number:{Manager.PhoneNumber}";
     }
-
 }
 class Program
 {
     static void Main(string[] args)
     {
         Company company = new Company();
-        company.manager = new Manager();
+        company.Manager = new Manager();
 
         Console.Write("Enter company name: ");
-        company.name = Console.ReadLine();
+        company.Name = Console.ReadLine();
 
         Console.Write("Enter company address: ");
-        company.address = Console.ReadLine();
+        company.Address = Console.ReadLine();
 
         Console.Write("Enter phone number: ");
-        company.phoneNumber = Console.ReadLine();
+        company.PhoneNumber = Console.ReadLine();
 
         Console.Write("Enter fax number: ");
         string? fax = Console.ReadLine();
 
-        if (string.IsNullOrEmpty(fax)) 
-            company.faxNumber = "No Fax";
+        if (string.IsNullOrEmpty(fax))
+        {
+            company.FaxNumber = "No Fax";
+        }            
         else
-            company.faxNumber = fax;
+        {
+            company.FaxNumber = fax;
+        }            
 
         Console.Write("Enter website: ");
-        company.webSite = Console.ReadLine();
+        company.WebSite = Console.ReadLine();
 
         Console.Write("Enter manager's first name: ");
-        company.manager.firstName = Console.ReadLine();
+        company.Manager.FirstName = Console.ReadLine();
 
         Console.Write("Enter manager's last name: ");
-        company.manager.lastName = Console.ReadLine();
+        company.Manager.LastName = Console.ReadLine();
 
         Console.Write("Enter manager's age: ");
-        company.manager.age = Convert.ToInt32(Console.ReadLine());
+        company.Manager.Age = Convert.ToInt32(Console.ReadLine());
 
         Console.Write("Enter manager's phone: ");
-        company.manager.phoneNumber = Console.ReadLine();
+        company.Manager.PhoneNumber = Console.ReadLine();
 
         Console.WriteLine(company);
     }

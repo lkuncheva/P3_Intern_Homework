@@ -4,7 +4,9 @@ class Program
 {
     static void Main(string[] args)
     {
-        double a, b, c;
+        double a;
+        double b;
+        double c;
 
         Console.WriteLine("Enter a real number a: ");
         while (!double.TryParse(Console.ReadLine(), out a) || (a < -1000 || a > 1000))

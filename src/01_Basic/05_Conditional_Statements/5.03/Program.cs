@@ -8,9 +8,7 @@ class Program
         string input;
         bool isCard = false;
         
-
         Console.WriteLine("Enter a card: ");
-
         while (string.IsNullOrWhiteSpace(input = Console.ReadLine()) || input.Length < 1 || input.Length > 5)
         {
             Console.WriteLine("Invalid input. Please enter a string between 1 and 5 characters long: ");
@@ -18,11 +16,13 @@ class Program
 
         for (int i = 0; i < allCards.Length; i++)
         {
-            if (input == allCards[i])            
-                isCard = true;     
+            if (input == allCards[i])
+            {
+                isCard = true;
+                break;
+            }               
         }
 
-        Console.WriteLine(isCard? $"yes {input}" : $"no {input}");
-       
+        Console.WriteLine(isCard? $"yes {input}" : $"no {input}");   
     }
 }
