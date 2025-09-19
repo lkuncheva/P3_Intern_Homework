@@ -14,11 +14,31 @@ class Program
             return;
         }
 
-        // I will try to implement this task with keeping the punctuation in place.... TBC>>>
-        char[] signs = { ',', '!', '.', '?' };
+        char[] signs = { ',', '!', '.', '?', ';', ':'};
         
         string[] words = input.Split(' ');
+        char[] signsInPlace = new char[words.Length];
+
+        for (int i = 0; i < words.Length; i++)
+        {
+            string word = words[i];
+            for (int j = 0; j < signs.Length; j++)
+            {
+                if (word[word.Length - 1] == signs[j])
+                {
+                    signsInPlace[i] = signs[j];
+                    words[i] = words[i].TrimEnd(signs);
+                    break;
+                }
+            }
+        }
+
         Array.Reverse(words);
+
+        for (int i = 0; i < words.Length; i++)
+        {
+            words[i] += signsInPlace[i];
+        }
 
         Console.WriteLine(string.Join(" ", words));
     }
