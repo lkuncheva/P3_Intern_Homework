@@ -1,0 +1,1 @@
+This is a test text. The program should remove the word 'test' and the word 'program'.
