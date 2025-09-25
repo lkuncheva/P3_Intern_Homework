@@ -1,7 +1,4 @@
-﻿using System;
-using System.Globalization;
-
-class Program
+﻿class Program
 {
     static void Main(string[] args)
     {
@@ -14,6 +11,7 @@ class Program
         if (string.IsNullOrEmpty(text))
         {
             Console.WriteLine("Invalid input. The string cannot be null or empty.");
+
             return;
         }
 
@@ -32,6 +30,7 @@ class Program
                     isPalindrome = false;
                     break;
                 }
+
                 isPalindrome = true;
             }
 

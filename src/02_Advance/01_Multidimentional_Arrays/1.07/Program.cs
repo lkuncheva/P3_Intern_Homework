@@ -44,7 +44,9 @@
                 {
                     int currentArea = DepthFirstSearch(row, col);
                     if (currentArea > maxArea)
+                    {
                         maxArea = currentArea;
+                    }
                 }
             }
         }

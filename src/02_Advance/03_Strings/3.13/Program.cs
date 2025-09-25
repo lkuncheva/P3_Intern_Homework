@@ -1,7 +1,4 @@
-﻿using System;
-using System.Text;
-
-class Program
+﻿class Program
 {
     static void Main(string[] args)
     {
@@ -11,6 +8,7 @@ class Program
         if (string.IsNullOrEmpty(input))
         {
             Console.WriteLine("Invalid input. The string cannot be null or empty.");
+
             return;
         }
 

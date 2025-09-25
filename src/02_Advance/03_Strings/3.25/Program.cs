@@ -1,8 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Text.RegularExpressions;
-
-class Program
+﻿class Program
 {
     static void Main(string[] args)
     {
@@ -12,6 +8,7 @@ class Program
         if (string.IsNullOrEmpty(htmlDocument))
         {
             Console.WriteLine("Invalid input. The input cannot be null or empty.");
+
             return;
         }
 
@@ -23,6 +20,7 @@ class Program
         {
             startTitle += "<title>".Length;
             int endTitle = htmlDocument.IndexOf("</title>", startTitle, StringComparison.OrdinalIgnoreCase);
+
             if (endTitle != -1)
             {
                 title = htmlDocument.Substring(startTitle, endTitle - startTitle).Trim();

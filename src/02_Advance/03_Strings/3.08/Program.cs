@@ -8,6 +8,7 @@
         if (string.IsNullOrEmpty(text))
         {
             Console.WriteLine("Invalid input. String is null or empty.");
+
             return;
         }
 
@@ -17,6 +18,7 @@
         if (string.IsNullOrEmpty(word))
         {
             Console.WriteLine("Invalid input. String is null or empty.");
+
             return;
         }
 

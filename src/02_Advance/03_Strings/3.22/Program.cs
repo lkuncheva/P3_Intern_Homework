@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-class Program
+﻿class Program
 {
     static void Main(string[] args)
     {
@@ -14,6 +11,7 @@ class Program
         if (string.IsNullOrEmpty(text))
         {
             Console.WriteLine("Invalid input. The string cannot be null or empty.");
+
             return;
         }
 
@@ -25,7 +23,7 @@ class Program
         foreach (string word in textParts)
         {
             word.Trim(punctuation);
-            
+
             string lowercaseWord = word.ToLower();
 
             if (wordsCounts.ContainsKey(lowercaseWord))
@@ -35,7 +33,7 @@ class Program
             else
             {
                 wordsCounts.Add(lowercaseWord, 1);
-            }            
+            }
         }
 
         Console.WriteLine("\nWord counts:");

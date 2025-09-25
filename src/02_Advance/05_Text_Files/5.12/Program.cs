@@ -31,6 +31,7 @@ class Program
             {
                 throw new FileNotFoundException($"Error: The file '{textPath}' was not found.");
             }
+
             if (!File.Exists(wordsPath))
             {
                 throw new FileNotFoundException($"Error: The file '{wordsPath}' was not found.");
@@ -56,6 +57,7 @@ class Program
                     delimiters.Add(c);
                 }
             }
+
             char[] delimiterArray = delimiters.ToArray();
 
             string[] words = textContent.Split(delimiterArray, StringSplitOptions.RemoveEmptyEntries);

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-class Program
+﻿class Program
 {
     static void Main(string[] args)
     {
@@ -13,6 +8,7 @@ class Program
         if (string.IsNullOrEmpty(input))
         {
             Console.WriteLine("Invalid input. The string cannot be null or empty.");
+
             return;
         }
 

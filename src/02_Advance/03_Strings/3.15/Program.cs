@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text;
 
 class Program
 {
@@ -12,6 +10,7 @@ class Program
         if (string.IsNullOrEmpty(htmlDocument))
         {
             Console.WriteLine("Invalid input. The string cannot be null or empty.");
+
             return;
         }
 

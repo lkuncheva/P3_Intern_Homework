@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using System.Text;
+﻿using System.Text;
 
 class Matrix
 {
@@ -33,6 +32,7 @@ class Matrix
             {
                 throw new ArgumentOutOfRangeException("Index is out of range!");
             }
+
             return matrix[row, col];
         }
         set
@@ -41,6 +41,7 @@ class Matrix
             {
                 throw new ArgumentOutOfRangeException("Index is out of range!");
             }
+
             matrix[row, col] = value;
         }
     }
@@ -60,6 +61,7 @@ class Matrix
                 result.matrix[i, j] = matrix1.matrix[i, j] + matrix2.matrix[i, j];
             }
         }
+
         return result;
     }
 
@@ -79,8 +81,10 @@ class Matrix
                 result.matrix[i, j] = matrix1.matrix[i, j] - matrix2.matrix[i, j];
             }
         }
+
         return result;
     }
+
     public static Matrix operator *(Matrix matrix1, Matrix matrix2)
     {
         if (matrix1.Columns != matrix2.Rows)
@@ -97,12 +101,12 @@ class Matrix
                 {
                     result.matrix[i, j] += matrix1.matrix[i, k] * matrix2.matrix[k, j];
                 }
-
             }
         }
+
         return result;
     }
-  
+
     public override string ToString()
     {
         StringBuilder matrixString = new StringBuilder();
@@ -112,8 +116,10 @@ class Matrix
             {
                 matrixString.AppendFormat("{0,4}", matrix[i, j]);
             }
+
             matrixString.AppendLine();
         }
+
         return matrixString.ToString();
     }
 }

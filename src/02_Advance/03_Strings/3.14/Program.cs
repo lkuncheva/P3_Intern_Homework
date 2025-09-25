@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-class Program
+﻿class Program
 {
     static void Main(string[] args)
     {
-        Dictionary<string, string> dictionary = new Dictionary<string, string>();
-
-        dictionary.Add(".NET", "Platform for applications from Microsoft");
-        dictionary.Add("CLR", "Managed execution environment for .NET");
-        dictionary.Add("namespace", "Hierarchical organization of classes");
+        Dictionary<string, string> dictionary = new Dictionary<string, string>
+        {
+            { ".NET", "Platform for applications from Microsoft" },
+            { "CLR", "Managed execution environment for .NET" },
+            { "namespace", "Hierarchical organization of classes" }
+        };
 
         Console.WriteLine("Enter word:");
         string input = Console.ReadLine();
@@ -18,6 +15,7 @@ class Program
         if (string.IsNullOrEmpty(input))
         {
             Console.WriteLine("Invalid input. The string cannot be null or empty.");
+
             return;
         }
 
@@ -41,6 +39,7 @@ class Program
                 if (string.IsNullOrEmpty(definition))
                 {
                     Console.WriteLine("Invalid input. The string cannot be null or empty.");
+
                     return;
                 }
 
@@ -56,6 +55,7 @@ class Program
             else
             {
                 Console.WriteLine("No changes made to dictionary.");
+
                 return;
             }
         }

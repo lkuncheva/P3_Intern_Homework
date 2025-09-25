@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-class Program
+﻿class Program
 {
     static void Main(string[] args)
     {
@@ -11,6 +9,7 @@ class Program
         if (string.IsNullOrEmpty(text))
         {
             Console.WriteLine("Invalid input. String is null or empty.");
+
             return;
         }
 
@@ -20,6 +19,7 @@ class Program
         if (string.IsNullOrEmpty(forbiddenWordsInput))
         {
             Console.WriteLine("Invalid input. String is null or empty.");
+
             return;
         }
 

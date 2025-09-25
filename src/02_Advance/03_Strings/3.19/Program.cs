@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 
 class Program
 {
@@ -14,6 +13,7 @@ class Program
         if (string.IsNullOrEmpty(text))
         {
             Console.WriteLine("Invalid input. The string cannot be null or empty.");
+
             return;
         }
 

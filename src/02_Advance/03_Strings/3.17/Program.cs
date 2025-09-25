@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text;
 
 class Program
@@ -12,9 +11,11 @@ class Program
 
         Console.WriteLine("Enter first date in format day.month.year");
         string input = Console.ReadLine();
+
         if (string.IsNullOrEmpty(input))
         {
             Console.WriteLine("Invalid input. The string cannot be null or empty.");
+
             return;
         }
 

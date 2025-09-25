@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-class Program
+﻿class Program
 {
     static void Main(string[] args)
     {
@@ -31,6 +29,7 @@ class Program
             {
                 throw new FileNotFoundException($"Error: The file '{textPath}' was not found.");
             }
+
             if (!File.Exists(wordsPath))
             {
                 throw new FileNotFoundException($"Error: The file '{wordsPath}' was not found.");
@@ -38,6 +37,7 @@ class Program
 
             var wordCounts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
             var wordsToFind = File.ReadAllLines(wordsPath);
+
             foreach (var word in wordsToFind)
             {
                 if (!string.IsNullOrWhiteSpace(word))
@@ -56,6 +56,7 @@ class Program
                     delimiters.Add(c);
                 }
             }
+
             char[] delimiterArray = delimiters.ToArray();
 
             string[] words = textContent.Split(delimiterArray, StringSplitOptions.RemoveEmptyEntries);

@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-class Program
+﻿class Program
 {
     static void Main(string[] args)
     {
@@ -15,6 +12,7 @@ class Program
             {
                 throw new FileNotFoundException($"Error: The file '{readFilePath1}' was not found.");
             }
+
             if (!File.Exists(readFilePath2))
             {
                 throw new FileNotFoundException($"Error: The file '{readFilePath2}' was not found.");

@@ -1,6 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-class Program
+﻿class Program
 {
     static int ReadNumber(int start, int end)
     {

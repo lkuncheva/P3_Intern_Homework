@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-class Program
+﻿class Program
 {
     static void Main(string[] args)
     {
@@ -20,6 +17,7 @@ class Program
                     {
                         Console.WriteLine(line);
                     }
+
                     lineNumber++;
                 }
             }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics.Metrics;
-
-class Program
+﻿class Program
 {
     static void Main(string[] args)
     {
@@ -117,7 +114,7 @@ class Program
             default:
                 break;
         }
-           
+
         for (int i = 0; i < n; i++)
         {
             for (int j = 0; j < n; j++)

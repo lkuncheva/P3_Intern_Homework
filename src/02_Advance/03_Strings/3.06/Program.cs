@@ -8,6 +8,7 @@
         if (input.Length > 20)
         {
             Console.WriteLine("Invalid input. String is longer than 20 characters");
+
             return;
         }
 
