@@ -10,6 +10,8 @@ public class GSM
     private Battery phoneBattery;
     private Display phoneDisplay;
 
+    public List<Call> CallHistory { get; set; }
+
     private static readonly GSM iPhone4S = new GSM
     {
         Model = "iPhone 4S",
@@ -82,7 +84,10 @@ public class GSM
 
     // --- Constructors ---
 
-    public GSM() { }
+    public GSM() 
+    {
+        this.CallHistory = new List<Call>();
+    }
     public GSM(string model, string manufacturer, double? price, string owner, Battery battery, Display display)
     {
         this.Model = model;
@@ -91,21 +96,56 @@ public class GSM
         this.Owner = owner;
         this.PhoneBattery = battery;
         this.PhoneDisplay = display;
+        this.CallHistory = new List<Call>();
     }
 
-    public GSM(string model, string manufacturer) : this(model, manufacturer, null, null, new Battery(), new Display()) { }
+    public GSM(string model, string manufacturer) : this(model, manufacturer, null, null, new Battery(), new Display()) 
+    {
+        this.CallHistory = new List<Call>();
+    }
 
-    public GSM(string model, string manufacturer, double? price) : this(model, manufacturer, price, null, new Battery(), new Display()) { }
+    // --- Methods ---
 
-    public GSM(string model, string manufacturer, string owner) : this(model, manufacturer, null, owner, new Battery(), new Display()) { }
+    public void AddCall(string phoneNumber, int duration)
+    {
+        Call newCall = new Call(phoneNumber, duration);
+        this.CallHistory.Add(newCall);
+    }
 
-    public GSM(string model, string manufacturer, Battery battery) : this(model, manufacturer, null, null, battery, new Display()) { }
+    public void DeleteCall(Call call)
+    {
+        this.CallHistory.Remove(call);
+    }
 
-    public GSM(string model, string manufacturer, Display display) : this(model, manufacturer, null, null, new Battery(), display) { }
+    public void ClearCallHistory()
+    {
+        this.CallHistory.Clear();
+    }
+
+    public double CallsPrice(double pricePerMinute)
+    {
+        double price = 0;
+        foreach (Call call in this.CallHistory) 
+        {
+            price += pricePerMinute * (double)call.DurationInSeconds / 60;
+        }
+        return price;
+    }
 
     public override string ToString()
     {
+        string callHistoryString = string.Empty;
+        if (this.CallHistory != null && this.CallHistory.Count > 0)
+        {
+            callHistoryString = "\n--- Call History ---";
+            foreach (var call in this.CallHistory)
+            {
+                callHistoryString += $"\n{call}";
+            }
+        }
+
         StringBuilder sb = new StringBuilder();
+        sb.AppendLine("\n--- Phone Details ---");
         sb.AppendLine("------------------------------------");
         sb.AppendLine($"Model: {Model}");
         sb.AppendLine($"Manufacturer: {Manufacturer}");
@@ -119,6 +159,7 @@ public class GSM
         {
             sb.AppendLine(PhoneDisplay.ToString()); 
         }
+        sb.AppendLine(callHistoryString);
         sb.AppendLine("------------------------------------");
         return sb.ToString();
     }

@@ -42,7 +42,10 @@ namespace _04._01
                 //PhoneDisplay = new Display(6.7, 16000000)
             };
 
-            Console.WriteLine("--- Displaying GSMs from the array ---");
+            phones[0].CallHistory.Add(new Call("+359 898 233 045", 120));
+            phones[0].CallHistory.Add(new Call("+44 7936 888 772", 300));
+            phones[1].CallHistory.Add(new Call("555-111-2222", 65));
+
             foreach (var phone in phones)
             {
                 Console.WriteLine(phone);
