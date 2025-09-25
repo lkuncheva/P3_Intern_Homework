@@ -33,9 +33,11 @@ public class GSM
             {
                 throw new ArgumentException("Model cannot be empty.");
             }
+
             model = value;
         }
     }
+
     public required string Manufacturer
     { 
         get { return manufacturer; }
@@ -45,9 +47,11 @@ public class GSM
             {
                 throw new ArgumentException("Manufacturer cannot be empty.");
             }
+
             manufacturer = value;
         }
     }
+
     public double? Price
     { 
         get { return price; }
@@ -57,9 +61,11 @@ public class GSM
             {
                 throw new ArgumentException("Price cannot be negative.");
             }
+
             price = value;
         }
     }
+
     public string Owner 
     { 
         get { return owner; } 
@@ -88,6 +94,7 @@ public class GSM
     {
         this.CallHistory = new List<Call>();
     }
+
     public GSM(string model, string manufacturer, double? price, string owner, Battery battery, Display display)
     {
         this.Model = model;
@@ -129,6 +136,7 @@ public class GSM
         {
             price += pricePerMinute * (double)call.DurationInSeconds / 60;
         }
+
         return price;
     }
 
@@ -151,16 +159,20 @@ public class GSM
         sb.AppendLine($"Manufacturer: {Manufacturer}");
         sb.AppendLine($"Price: {(Price.HasValue ? Price.Value.ToString("C") : "N/A")}");
         sb.AppendLine($"Owner: {(string.IsNullOrWhiteSpace(Owner) ? "N/A" : Owner)}");
+
         if (PhoneBattery != null)
         {
             sb.AppendLine(PhoneBattery.ToString()); 
         }
+
         if (PhoneDisplay != null)
         {
             sb.AppendLine(PhoneDisplay.ToString()); 
         }
+
         sb.AppendLine(callHistoryString);
         sb.AppendLine("------------------------------------");
+
         return sb.ToString();
     }
 }

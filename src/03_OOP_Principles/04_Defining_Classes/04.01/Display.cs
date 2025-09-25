@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
-namespace _04._01
+﻿namespace _04._01
 {
     public class Display
     {
@@ -21,6 +14,7 @@ namespace _04._01
                 {
                     throw new ArgumentException("Display size cannot be negative.");
                 }
+
                 size = value;
             }
         }
@@ -34,6 +28,7 @@ namespace _04._01
                 {
                     throw new ArgumentException("Number of colors cannot be negative.");
                 }
+
                 numberOfColours = value;
             }
         }

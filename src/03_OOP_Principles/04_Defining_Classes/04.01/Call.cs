@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace _04._01
 {
     public class Call
     {
-        private DateTime dateTime;
-        private string dialedPhoneNumber;
-        private string durationInSeconds;
-
         public DateTime DateTime { get; set; }
         public string DialedPhoneNumber { get; set; }
         public int DurationInSeconds { get; set; }
@@ -36,6 +26,7 @@ namespace _04._01
             sb.AppendLine($"Number: {this.DialedPhoneNumber}");
             sb.AppendLine($"Duration: {duration.ToString(@"mm\:ss")}");
             sb.AppendLine("------------------------------------");
+
             return sb.ToString();
         }
     }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace _04._01
+﻿namespace _04._01
 {
     public class Battery
     {
@@ -27,9 +21,11 @@ namespace _04._01
                 {
                     throw new ArgumentException("Battery hours idle cannot be negative.");
                 }
+
                 hoursIdle = value;
             }
         }
+
         public double? HoursTalk
         { 
             get { return hoursTalk; }
@@ -39,6 +35,7 @@ namespace _04._01
                 {
                     throw new ArgumentException("Battery hours talk cannot be negative.");
                 }
+
                 hoursTalk = value;
             }
         }
