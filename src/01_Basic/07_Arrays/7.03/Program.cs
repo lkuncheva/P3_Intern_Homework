@@ -37,12 +37,11 @@ class Program
             }
         }
 
-
         //Easier way to do this withot converting the strings to char arrays
         /*
-        if (string.Compare(string1, string2) < 0)
+        if (string.Compare(string1, string2, CompareOptions.IgnoreCase) < 0)
             Console.WriteLine("<");
-        else if (string.Compare(string1, string2) > 0)
+        else if (string.Compare(string1, string2, CompareOptions.IgnoreCase) > 0)
             Console.WriteLine(">");
         else
             Console.WriteLine("=");
@@ -54,19 +53,20 @@ class Program
         int minLength = Math.Min(charArray1.Length, charArray2.Length);
 
         for (int i = 0; i < minLength; i++)
-        {           
+        {
             if (charArray1[i] < charArray2[i])
             {
                 Console.WriteLine("<");
+
                 return;
             }
-                    
-            else if (charArray1[i] > charArray2[i])
+
+            if (charArray1[i] > charArray2[i])
             {
                 Console.WriteLine(">");
+
                 return;
             }
-            
         }
 
         //If the arrays are different sizess
@@ -83,6 +83,5 @@ class Program
         {
             Console.WriteLine("=");
         }
-
     }
 }

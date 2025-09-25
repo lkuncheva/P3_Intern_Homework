@@ -1,6 +1,4 @@
-﻿using System;
-
-class Program
+﻿class Program
 {
     static void Main(string[] args)
     {
@@ -36,7 +34,7 @@ class Program
             {
                 currentMax = currentMax + array[i];
             }
-               
+
             if (overallMax < currentMax)
             {
                 overallMax = currentMax;

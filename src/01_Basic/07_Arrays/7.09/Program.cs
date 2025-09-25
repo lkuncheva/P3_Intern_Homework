@@ -1,6 +1,4 @@
-﻿using System;
-
-class Program
+﻿class Program
 {
     static void Main(string[] args)
     {
@@ -23,29 +21,32 @@ class Program
             }
         }
 
-        int counter = 1;
-        int maxCounter = 1;
-        int mostFrequentNumber = array[0];
-    
-        for (int i = 0; i < n; i++)
-        {
-            for (int j = 0; j < n; j++)
-            {
-                if ((array[i] == array[j]) && (i != j))
-                {
-                    counter++;
-                }
-            }
-                        
-            if (counter > maxCounter)
-            {
-                maxCounter = counter;
-                mostFrequentNumber = array[i];
-            }
+        Dictionary<int, int> frequencyMap = new Dictionary<int, int>();
 
-            counter = 1;                     
+        foreach (int number in array)
+        {
+            if (frequencyMap.ContainsKey(number))
+            {
+                frequencyMap[number]++;
+            }
+            else
+            {
+                frequencyMap[number] = 1;
+            }
         }
 
-        Console.WriteLine($"{mostFrequentNumber} ({maxCounter} times)");
+        int mostFrequentNumber = frequencyMap.Keys.First();
+        int maxCount = frequencyMap[mostFrequentNumber];
+
+        foreach (var pair in frequencyMap)
+        {
+            if (pair.Value > maxCount)
+            {
+                maxCount = pair.Value;
+                mostFrequentNumber = pair.Key;
+            }
+        }
+
+        Console.WriteLine($"{mostFrequentNumber} ({maxCount} times)");
     }
 }

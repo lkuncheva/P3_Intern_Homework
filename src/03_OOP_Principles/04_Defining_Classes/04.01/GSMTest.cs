@@ -4,36 +4,35 @@
     {
         public static void Main()
         {
-            GSM[] phones = new GSM[3];
-
-            phones[0] = new GSM
-            {
-                Model = "Galaxy S23 Ultra",
-                Manufacturer = "Samsung",
-                Price = 1199.99,
-                PhoneBattery = new Battery("5000mAh Li-Po", 250, 40, BatteryType.LiIon),
-                PhoneDisplay = new Display(6.8, 16000000)
-            };
-
-            phones[1] = new GSM
-            {
-                Model = "Pixel 8 Pro",
-                Manufacturer = "Google",
-                Price = 999.00,
-                Owner = "Peter Pan",
-                //PhoneBattery = new Battery("5050mAh Li-Ion", 240, 38, BatteryType.LiIon),
-                PhoneDisplay = new Display(6.7, 16000000) 
-            };
-
-            phones[2] = new GSM
-            {
-                Model = "iPhone 15 Pro Max",
-                Manufacturer = "Apple",
-                Price = 1299.99,
-                Owner = "Bate Goiko",
-                PhoneBattery = new Battery("4422mAh Li-Ion", 220, 36, BatteryType.LiIon),
-                //PhoneDisplay = new Display(6.7, 16000000)
-            };
+            GSM[] phones =
+            [
+                new GSM
+                {
+                    Model = "Galaxy S23 Ultra",
+                    Manufacturer = "Samsung",
+                    Price = 1199.99,
+                    PhoneBattery = new Battery("5000mAh Li-Po", 250, 40, BatteryType.LiIon),
+                    PhoneDisplay = new Display(6.8, 16000000)
+                },
+                new GSM
+                {
+                    Model = "Pixel 8 Pro",
+                    Manufacturer = "Google",
+                    Price = 999.00,
+                    Owner = "Peter Pan",
+                    //PhoneBattery = new Battery("5050mAh Li-Ion", 240, 38, BatteryType.LiIon),
+                    PhoneDisplay = new Display(6.7, 16000000) 
+                },
+                new GSM
+                {
+                    Model = "iPhone 15 Pro Max",
+                    Manufacturer = "Apple",
+                    Price = 1299.99,
+                    Owner = "Bate Goiko",
+                    PhoneBattery = new Battery("4422mAh Li-Ion", 220, 36, BatteryType.LiIon),
+                    //PhoneDisplay = new Display(6.7, 16000000)
+                },
+            ];
 
             phones[0].CallHistory.Add(new Call("+359 898 233 045", 120));
             phones[0].CallHistory.Add(new Call("+44 7936 888 772", 300));

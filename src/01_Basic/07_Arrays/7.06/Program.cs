@@ -1,5 +1,4 @@
-﻿using System;
-class Program
+﻿class Program
 {
     static void Main(string[] args)
     {
@@ -16,7 +15,6 @@ class Program
         {
             Console.WriteLine("Invalid input. Please enter a valid integer in range [1, N]: ");
         }
-
 
         // Easier implementation using a list instead of an array
         /*
@@ -48,7 +46,6 @@ class Program
         Console.WriteLine(sum);
         */
 
-
         int[] array = new int[n];
 
         Console.WriteLine("Enter array: ");
@@ -58,9 +55,7 @@ class Program
             {
                 Console.WriteLine("Invalid input. Please enter a valid integer: ");
             }
-
         }
-
 
         // Implementation using built-in sorting method
         /*
@@ -80,11 +75,11 @@ class Program
         // Implementation without using any helper methods
         
         int sum = 0;
-        int[] maxNumber = new int[k];
+        int[] maxNumberArray = new int[k];
 
         for (int i = 0; i < k; i++)
         {
-            maxNumber[i] = array[i];
+            maxNumberArray[i] = array[i];
         }
 
         // Puts the K largest numbers in an array to get their sum
@@ -92,15 +87,19 @@ class Program
         {
             for (int j = 0; j < array.Length; j++)
             {
-                if ((array[j] > maxNumber[i]) && (i == 0))
-                    maxNumber[i] = array[j];
-                else if ((array[j] > maxNumber[i]) && (array[j] < maxNumber[i - 1]))
-                    maxNumber[i] = array[j];  
+                if ((array[j] > maxNumberArray[i]) && (i == 0))
+                {
+                    maxNumberArray[i] = array[j];
+                }
+                else if ((array[j] > maxNumberArray[i]) && (array[j] < maxNumberArray[i - 1]))
+                {
+                    maxNumberArray[i] = array[j];
+                }
             }
-            sum += maxNumber[i];
+
+            sum += maxNumberArray[i];
         }
 
         Console.WriteLine(sum);
-        
     }
 }

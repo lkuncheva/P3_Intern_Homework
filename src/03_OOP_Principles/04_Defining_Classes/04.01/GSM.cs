@@ -27,29 +27,13 @@ public class GSM
     public required string Model
     {
         get { return model; }
-        set
-        {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                throw new ArgumentException("Model cannot be empty.");
-            }
-
-            model = value;
-        }
+        set { model = value; }
     }
 
     public required string Manufacturer
     { 
         get { return manufacturer; }
-        set
-        {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                throw new ArgumentException("Manufacturer cannot be empty.");
-            }
-
-            manufacturer = value;
-        }
+        set { manufacturer = value; }
     }
 
     public double? Price

@@ -1,5 +1,4 @@
-﻿using System;
-class Program
+﻿class Program
 {
     static void Main(string[] args)
     {
@@ -20,26 +19,28 @@ class Program
             {
                 Console.WriteLine("Invalid input. Please enter a valid integer: ");
             }
-
         }
 
-        int sequenceLength = 1;
-        int maxSequence = 1;
+        int currentSequenceLength = 1;
+        int maxSequenceLength = 1;
 
         for (int i = 1; i < n; i++)
         {
             if (array[i] == array[i - 1])
-                sequenceLength++;
+            {
+                currentSequenceLength++;
+            }
             else
             {
-                if (sequenceLength > maxSequence)
-                    maxSequence = sequenceLength;
-                sequenceLength = 1;
+                if (currentSequenceLength > maxSequenceLength)
+                {
+                    maxSequenceLength = currentSequenceLength;
+                }
+
+                currentSequenceLength = 1;
             }
-                
         }
 
-        Console.WriteLine(maxSequence);
-
+        Console.WriteLine(maxSequenceLength);
     }
 }

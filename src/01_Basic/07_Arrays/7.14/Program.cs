@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-class Program
+﻿class Program
 {
     static void Sort(int[] array, int left, int right)
     {
         if (left < right)
         {
             int pivot = Partition(array, left, right);
-                       
+
             Sort(array, left, pivot - 1);
             Sort(array, pivot + 1, right);
         }
@@ -22,22 +17,22 @@ class Program
         int i = (left - 1); 
 
         for (int j = left; j < right; j++)
-        {            
+        {
             if (array[j] <= pivot)
             {
                 i++;
-                                
+
                 int temp = array[i];
                 array[i] = array[j];
                 array[j] = temp;
             }
         }
-                
+
         int temp1 = array[i + 1];
         array[i + 1] = array[right];
         array[right] = temp1;
 
-        return i + 1;                
+        return i + 1;
     }
 
     static void Main(string[] args)
