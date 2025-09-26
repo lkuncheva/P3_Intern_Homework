@@ -1,7 +1,7 @@
 ﻿namespace _04._02
 {
     [Version("2.5")]
-    public class MySampleClass
+    public class SampleClass
     {
         [Version("2.5.1")]
         public void RunProcess()

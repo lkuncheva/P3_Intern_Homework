@@ -36,6 +36,7 @@ namespace _04._02
                 {
                     throw new IndexOutOfRangeException("Matrix index is outside the valid range.");
                 }
+
                 return numberMatrix[row, col];
             }
             set
@@ -44,6 +45,7 @@ namespace _04._02
                 {
                     throw new IndexOutOfRangeException("Matrix index is outside the valid range.");
                 }
+
                 numberMatrix[row, col] = value;
             }
         }
