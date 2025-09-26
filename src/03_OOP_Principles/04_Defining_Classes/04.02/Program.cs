@@ -6,7 +6,7 @@ namespace _04._02
     {
         public static void Main(string[] args)
         {
-            Type classType = typeof(MySampleClass);
+            Type classType = typeof(SampleClass);
             Console.WriteLine($"--- Reflection Demo for: {classType.Name} ---");
             Console.WriteLine();
 
@@ -27,7 +27,7 @@ namespace _04._02
             Console.WriteLine();
 
             // Retrieving the attribute applied to the METHOD
-            MethodInfo runProcessMethod = classType.GetMethod(nameof(MySampleClass.RunProcess));
+            MethodInfo runProcessMethod = classType.GetMethod(nameof(SampleClass.RunProcess));
 
             if (runProcessMethod != null)
             {
