@@ -1,12 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace _04._02
+﻿namespace _04._02
 {
-    internal class PathStorage
+    public static class PathStorage
     {
+        public static void SavePath(Path path, string filePath)
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(filePath))
+                {
+                    foreach (var point in path.Points3DList)
+                    {
+                        writer.WriteLine($"{point.X},{point.Y},{point.Z}");
+                    }
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine($"Error: The file '{filePath}' was not found.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+            }
+        }
+
+        public static Path LoadPath(string filePath)
+        {
+            Path path = new Path();
+
+            try
+            {
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        string[] coordinates = line.Split(',');
+
+                        if (coordinates.Length == 3)
+                        {
+                            if (double.TryParse(coordinates[0], out double x) &&
+                                double.TryParse(coordinates[1], out double y) &&
+                                double.TryParse(coordinates[2], out double z))
+                            {
+                                path.AddPoint(new Point3D(x, y, z));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine($"Error: The file '{filePath}' was not found.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+            }
+
+            return path;
+        }
     }
 }

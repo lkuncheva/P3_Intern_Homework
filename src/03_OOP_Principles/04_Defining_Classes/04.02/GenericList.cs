@@ -2,7 +2,7 @@
 
 namespace _04._02
 {
-    public class GenericList<T>
+    public class GenericList<T> where T : IComparable<T>
     {
         private T[] elements;
         private int count;
@@ -108,6 +108,44 @@ namespace _04._02
             }
 
             return -1;
+        }
+
+        public T Min()
+        {
+            if (this.count == 0)
+            {
+                throw new InvalidOperationException("The list is empty. Cannot find the minimum element.");
+            }
+
+            T currentMin = this.elements[0];
+            for (int i = 1; i < this.count; i++)
+            {
+                if (currentMin.CompareTo(this.elements[i]) > 0)
+                {
+                    currentMin = this.elements[i];
+                }
+            }
+
+            return currentMin;
+        }
+
+        public T Max()
+        {
+            if (this.count == 0)
+            {
+                throw new InvalidOperationException("The list is empty. Cannot find the maximum element.");
+            }
+
+            T currentMax = this.elements[0];
+            for (int i = 1; i < this.count; i++)
+            {
+                if (currentMax.CompareTo(this.elements[i]) < 0)
+                {
+                    currentMax = this.elements[i];
+                }
+            }
+
+            return currentMax;
         }
 
         public override string ToString()

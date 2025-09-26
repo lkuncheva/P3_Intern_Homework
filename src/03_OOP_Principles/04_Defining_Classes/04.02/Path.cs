@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace _04._02
+﻿namespace _04._02
 {
-    internal class Path
+    public class Path
     {
+        public List<Point3D> Points3DList { get; set; }
+
+        public Path()
+        {
+            this.Points3DList = new List<Point3D>();
+        }
+
+        public void AddPoint(Point3D point)
+        {
+            this.Points3DList.Add(point);
+        }
     }
 }
