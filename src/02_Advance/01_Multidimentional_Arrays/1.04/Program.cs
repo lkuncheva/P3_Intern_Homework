@@ -1,22 +1,18 @@
-﻿class FindLargestNumber
+﻿class Program
 {
     static void Main(string[] args)
     {
-        int n;
-        Console.WriteLine("Enter number N: ");
-        while (!int.TryParse(Console.ReadLine(), out n) || (n < 1))
-        {
-            Console.WriteLine("Invalid input. Please enter a valid integer >= 1: ");
-        }
+        Console.WriteLine("Enter array elements separated by a space: ");
 
+        string[] input = Console.ReadLine()
+                               .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+        int n = input.Length;
         int[] array = new int[n];
-        Console.WriteLine("Enter array: ");
+
         for (int i = 0; i < n; i++)
         {
-            while (!int.TryParse(Console.ReadLine(), out array[i]))
-            {
-                Console.WriteLine("Invalid input. Please enter a valid integer: ");
-            }
+            array[i] = Convert.ToInt32(input[i]);
         }
 
         int k;

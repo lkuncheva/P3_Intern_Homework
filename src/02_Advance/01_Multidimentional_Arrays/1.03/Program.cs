@@ -31,67 +31,67 @@
             for (int j = 0; j < m; j++)
             {
                 string currentElement = matrix[i, j];
-                int currentSequence = 1;
+                int currentRightSequence = 1;
+                int currentDownSequence = 1;
+                int currentDiagonalRightSequence = 1;
+                int currentDiagonalLeftSequence = 1;
 
                 for (int k = j + 1; k < m; k++)
                 {
                     if (matrix[i, k] == currentElement)
                     {
-                        currentSequence++;
+                        currentRightSequence++;
                     }
                     else
                     {
                         break;
                     }
                 }
-                if (currentSequence > maxSequence)
+                if (currentRightSequence > maxSequence)
                 {
-                    maxSequence = currentSequence;
+                    maxSequence = currentRightSequence;
                 }
 
-                currentSequence = 1;
                 for (int k = i + 1; k < n; k++)
                 {
                     if (matrix[k, j] == currentElement)
                     {
-                        currentSequence++;
+                        currentDownSequence++;
                     }
                     else
                     {
                         break;
                     }
                 }
-                if (currentSequence > maxSequence)
+                if (currentDownSequence > maxSequence)
                 {
-                    maxSequence = currentSequence;
+                    maxSequence = currentDownSequence;
                 }
 
-                currentSequence = 1;
                 int row = i + 1;
                 int col = j + 1;
                 while (row < n && col < m && matrix[row, col] == currentElement)
                 {
-                    currentSequence++;
+                    currentDiagonalRightSequence++;
                     row++;
                     col++;
                 }
-                if (currentSequence > maxSequence)
+                if (currentDiagonalRightSequence > maxSequence)
                 {
-                    maxSequence = currentSequence;
+                    maxSequence = currentDiagonalRightSequence;
                 }
 
-                currentSequence = 1;
                 row = i + 1;
                 col = j - 1;
                 while (row < n && col >= 0 && matrix[row, col] == currentElement)
                 {
-                    currentSequence++;
+                    currentDiagonalLeftSequence++;
                     row++;
                     col--;
                 }
-                if (currentSequence > maxSequence)
+                if (currentDiagonalLeftSequence > maxSequence)
                 {
-                    maxSequence = currentSequence;
+                    maxSequence = currentDiagonalLeftSequence;
                 }
             }
         }

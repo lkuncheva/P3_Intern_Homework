@@ -27,20 +27,33 @@
         }
 
         int maxSum = int.MinValue;
+        int currentSum = 0;
 
         for (int row = 0; row <= n - 3; row++)
         {
-            for (int col = 0; col <= m - 3; col++)
+            currentSum = 0;
+            for (int i = 0; i < 3; i++)
             {
-                int currentSum = 0;
-
-                for (int i = 0; i < 3; i++)
+                for (int j = 0; j < 3; j++)
                 {
-                    for (int j = 0; j < 3; j++)
-                    {
-                        currentSum += matrix[row + i, col + j];
-                    }
+                    currentSum += matrix[row + i, j];
                 }
+            }
+
+            if (currentSum > maxSum)
+            {
+                maxSum = currentSum;
+            }
+
+            for (int col = 1; col <= m - 3; col++)
+            {
+                currentSum -= matrix[row, col - 1];
+                currentSum -= matrix[row + 1, col - 1];
+                currentSum -= matrix[row + 2, col - 1];
+
+                currentSum += matrix[row, col + 2];
+                currentSum += matrix[row + 1, col + 2];
+                currentSum += matrix[row + 2, col + 2];
 
                 if (currentSum > maxSum)
                 {

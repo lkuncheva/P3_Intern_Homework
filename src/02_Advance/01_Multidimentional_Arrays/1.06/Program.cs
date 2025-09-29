@@ -2,7 +2,7 @@
 
 class Matrix
 {
-    private int[,] matrix;
+    private int[,] _data;
     public int Rows { get; }
     public int Columns { get; }
     public Matrix(int rows, int cols)
@@ -12,37 +12,37 @@ class Matrix
             throw new ArgumentException("Each dimension must be greater than 0!");
         }
 
-        this.Rows = rows;
-        this.Columns = cols;
-        this.matrix = new int[rows, cols];
+        Rows = rows;
+        Columns = cols;
+        _data = new int[rows, cols];
     }
 
     public Matrix(int[,] matrix)
     {
-        this.Rows = matrix.GetLength(0);
-        this.Columns = matrix.GetLength(1);
-        this.matrix = matrix;
+        Rows = matrix.GetLength(0);
+        Columns = matrix.GetLength(1);
+        _data = matrix;
     }
 
     public int this[int row, int col]
     {
         get
         {
-            if (row < 0 || row > this.Rows || col < 0 || col > this.Columns)
+            if (row < 0 || row >= Rows || col < 0 || col >= Columns)
             {
                 throw new ArgumentOutOfRangeException("Index is out of range!");
             }
 
-            return matrix[row, col];
+            return _data[row, col];
         }
         set
         {
-            if (row < 0 || row > this.Rows || col < 0 || col > this.Columns)
+            if (row < 0 || row >= Rows || col < 0 || col >= Columns)
             {
                 throw new ArgumentOutOfRangeException("Index is out of range!");
             }
 
-            matrix[row, col] = value;
+            _data[row, col] = value;
         }
     }
     public static Matrix operator +(Matrix matrix1, Matrix matrix2)
@@ -52,13 +52,13 @@ class Matrix
             throw new InvalidOperationException("Matrices must have the same dimensions for addition.");
         }
 
-        Matrix result = new Matrix(matrix1.Rows, matrix2.Columns);
+        Matrix result = new Matrix(matrix1.Rows, matrix1.Columns);
 
-        for (int i = 0; i < matrix1.Rows; i++)
+        for (int i = 0; i < result.Rows; i++)
         {
-            for (int j = 0; j < matrix2.Rows; j++)
+            for (int j = 0; j < result.Columns; j++)
             {
-                result.matrix[i, j] = matrix1.matrix[i, j] + matrix2.matrix[i, j];
+                result._data[i, j] = matrix1._data[i, j] + matrix2._data[i, j];
             }
         }
 
@@ -72,13 +72,13 @@ class Matrix
             throw new InvalidOperationException("Matrices must have the same dimensions for subtraction.");
         }
 
-        Matrix result = new Matrix(matrix1.Rows, matrix2.Columns);
+        Matrix result = new Matrix(matrix1.Rows, matrix1.Columns);
 
-        for (int i = 0; i < matrix1.Rows; i++)
+        for (int i = 0; i < result.Rows; i++)
         {
-            for (int j = 0; j < matrix2.Rows; j++)
+            for (int j = 0; j < result.Columns; j++)
             {
-                result.matrix[i, j] = matrix1.matrix[i, j] - matrix2.matrix[i, j];
+                result._data[i, j] = matrix1._data[i, j] - matrix2._data[i, j];
             }
         }
 
@@ -93,13 +93,14 @@ class Matrix
         }
 
         Matrix result = new Matrix(matrix1.Rows, matrix2.Columns);
+
         for (int i = 0; i < matrix1.Rows; i++)
         {
             for (int j = 0; j < matrix2.Columns; j++)
             {
                 for (int k = 0; k < matrix1.Columns; k++)
                 {
-                    result.matrix[i, j] += matrix1.matrix[i, k] * matrix2.matrix[k, j];
+                    result._data[i, j] += matrix1._data[i, k] * matrix2._data[k, j];
                 }
             }
         }
@@ -114,7 +115,7 @@ class Matrix
         {
             for (int j = 0; j < Columns; j++)
             {
-                matrixString.AppendFormat("{0,4}", matrix[i, j]);
+                matrixString.AppendFormat("{0,4}", _data[i, j]);
             }
 
             matrixString.AppendLine();

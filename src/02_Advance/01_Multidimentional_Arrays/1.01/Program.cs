@@ -7,7 +7,7 @@
         Console.WriteLine("Enter number N: ");
         while (!int.TryParse(Console.ReadLine(), out n) || (n < 1) || (n > 20))
         {
-            Console.WriteLine("Invalid input. Please enter a valid integer in range [1, 20]: ");
+            Console.WriteLine("Invalid input. Please enter a valid integer in range [1, 128]: ");
         }
 
         char fillOption;
@@ -35,20 +35,25 @@
                 break;
 
             case 'b':
+                bool isColumnEven = true;
                 for (int i = 0; i < n; i++)
                 {
-                    for (int j = 0; j < n; j++)
+                    if (isColumnEven)
                     {
-                        matrix[j, i] = number++;
-                    }
+                        for (int j = 0; j < n; j++)
+                        {
+                            matrix[j, i] = number++;
+                        }
 
-                    if (i < n - 1)
+                        isColumnEven = false;
+                    }
+                    else
                     {
                         for (int j = n - 1; j >= 0; j--)
                         {
-                            matrix[j, i + 1] = number++;
+                            matrix[j, i] = number++;
                         }
-                        i++;
+                        isColumnEven = true;
                     }
                 }
                 break;

@@ -11,64 +11,91 @@
     static void Main(string[] args)
     {
         Console.WriteLine("Enter number of rows N and columns M (separated by a space): ");
-        int[] inputNM = Console.ReadLine()
-                                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
-                                .Select(int.Parse)
-                                .ToArray();
 
-        n = inputNM[0];
-        m = inputNM[1];
-        matrix = new int[n, m];
-        visited = new bool[n, m];
-
-        Console.WriteLine("Enter matrix: ");
-        for (int i = 0; i < n; i++)
+        try
         {
-            int[] row = Console.ReadLine()
-                               .Split(' ', StringSplitOptions.RemoveEmptyEntries)
-                               .Select(int.Parse)
-                               .ToArray();
-            for (int j = 0; j < m; j++)
-            {
-                matrix[i, j] = row[j];
-            }
-        }
+            int[] inputNM = Console.ReadLine()
+                                    .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                                    .Select(int.Parse)
+                                    .ToArray();
 
-        int maxArea = 0;
+            n = inputNM[0];
+            m = inputNM[1];
 
-        for (int row = 0; row < n; row++)
-        {
-            for (int col = 0; col < m; col++)
+            matrix = new int[n, m];
+            visited = new bool[n, m];
+
+            Console.WriteLine("Enter matrix: ");
+            for (int i = 0; i < n; i++)
             {
-                if (!visited[row, col])
+                int[] row = Console.ReadLine()
+                                   .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                                   .Select(int.Parse)
+                                   .ToArray();
+                for (int j = 0; j < m; j++)
                 {
-                    int currentArea = DepthFirstSearch(row, col);
-                    if (currentArea > maxArea)
+                    matrix[i, j] = row[j];
+                }
+            }
+
+            int maxArea = 0;
+
+            for (int row = 0; row < n; row++)
+            {
+                for (int col = 0; col < m; col++)
+                {
+                    if (!visited[row, col])
                     {
-                        maxArea = currentArea;
+                        int currentArea = DepthFirstSearch(row, col);
+
+                        if (currentArea > maxArea)
+                        {
+                            maxArea = currentArea;
+                        }
                     }
                 }
             }
-        }
 
-        Console.WriteLine(maxArea);
+            Console.WriteLine(maxArea);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+            Console.WriteLine("Please ensure the input format is correct (N M on line 1, followed by N lines of M space-separated numbers).");
+        }
     }
 
-    static int DepthFirstSearch(int row, int col)
+    static int DepthFirstSearch(int startRow, int startCol)
     {
-        visited[row, col] = true;
-        int area = 1;
-        int currentNumber = matrix[row, col];
+        var stack = new Stack<(int row, int col)>();
 
-        for (int i = 0; i < 4; i++)
+        int targetValue = matrix[startRow, startCol];
+        int area = 0;
+
+        stack.Push((startRow, startCol));
+        visited[startRow, startCol] = true;
+
+        while (stack.Count > 0)
         {
-            int nextRow = row + rowDirections[i];
-            int nextCol = col + colDirections[i];
+            var (currentRow, currentCol) = stack.Pop();
+            area++; 
 
-            if (nextRow >= 0 && nextRow < n && nextCol >= 0 && nextCol < m &&
-                !visited[nextRow, nextCol] && matrix[nextRow, nextCol] == currentNumber)
+            for (int i = 0; i < 4; i++)
             {
-                area += DepthFirstSearch(nextRow, nextCol);
+                int nextRow = currentRow + rowDirections[i];
+                int nextCol = currentCol + colDirections[i];
+
+                bool inBounds = nextRow >= 0 && nextRow < n && nextCol >= 0 && nextCol < m;
+
+                if (inBounds)
+                {
+                    if (!visited[nextRow, nextCol] && matrix[nextRow, nextCol] == targetValue)
+                    {
+                        visited[nextRow, nextCol] = true;
+
+                        stack.Push((nextRow, nextCol));
+                    }
+                }
             }
         }
 
