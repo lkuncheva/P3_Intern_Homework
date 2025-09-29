@@ -22,9 +22,7 @@
 
         foreach (string word in textParts)
         {
-            word.Trim(punctuation);
-
-            string lowercaseWord = word.ToLower();
+            string lowercaseWord = word.Trim(punctuation).ToLower();
 
             if (wordsCounts.ContainsKey(lowercaseWord))
             {

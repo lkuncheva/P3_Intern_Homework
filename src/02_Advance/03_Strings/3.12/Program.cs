@@ -8,11 +8,19 @@
         if (string.IsNullOrEmpty(url))
         {
             Console.WriteLine("Invalid input. The string cannot be null or empty.");
-
             return;
         }
 
+        url = url.Trim();
+
         int protocolEndIndex = url.IndexOf("://");
+
+        if (protocolEndIndex == -1)
+        {
+            Console.WriteLine("Invalid URL format. Could not find '://'.");
+            return;
+        }
+
         string protocol = url.Substring(0, protocolEndIndex);
         int serverEndIndex = url.IndexOf('/', protocolEndIndex + 3);
 

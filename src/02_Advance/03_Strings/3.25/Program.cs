@@ -2,6 +2,17 @@
 {
     static void Main(string[] args)
     {
+        const string TITLE_OPEN_TAG = "<title>";
+        const string TITLE_CLOSE_TAG = "</title>";
+        const string BODY_OPEN_TAG = "<body>";
+        const string BODY_CLOSE_TAG = "</body>";
+
+        const string FALLBACK_TITLE = "Title not found";
+        const string FALLBACK_BODY = "Body not found";
+
+        string title = FALLBACK_TITLE;
+        string body = FALLBACK_BODY;
+
         Console.WriteLine("Enter text:");
         string htmlDocument = Console.ReadLine();
 
@@ -12,14 +23,11 @@
             return;
         }
 
-        string title = "Title not found";
-        string body = "Body not found";
-
-        int startTitle = htmlDocument.IndexOf("<title>", StringComparison.OrdinalIgnoreCase);
+        int startTitle = htmlDocument.IndexOf(TITLE_OPEN_TAG, StringComparison.OrdinalIgnoreCase);
         if (startTitle != -1)
         {
-            startTitle += "<title>".Length;
-            int endTitle = htmlDocument.IndexOf("</title>", startTitle, StringComparison.OrdinalIgnoreCase);
+            startTitle += TITLE_OPEN_TAG.Length;
+            int endTitle = htmlDocument.IndexOf(TITLE_CLOSE_TAG, startTitle, StringComparison.OrdinalIgnoreCase);
 
             if (endTitle != -1)
             {
@@ -27,11 +35,11 @@
             }
         }
 
-        int startBody = htmlDocument.IndexOf("<body>", StringComparison.OrdinalIgnoreCase);
+        int startBody = htmlDocument.IndexOf(BODY_OPEN_TAG, StringComparison.OrdinalIgnoreCase);
         if (startBody != -1)
         {
-            startBody += "<body>".Length;
-            int endBody = htmlDocument.IndexOf("</body>", startBody, StringComparison.OrdinalIgnoreCase);
+            startBody += BODY_OPEN_TAG.Length;
+            int endBody = htmlDocument.IndexOf(BODY_CLOSE_TAG, startBody, StringComparison.OrdinalIgnoreCase);
             if (endBody != -1)
             {
                 string bodyContent = htmlDocument.Substring(startBody, endBody - startBody);
@@ -51,7 +59,8 @@
                     }
                 }
 
-                body = bodyContent;
+                string[] parts = bodyContent.Split(new char[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                body = string.Join(" ", parts).Trim();
             }
         }
 

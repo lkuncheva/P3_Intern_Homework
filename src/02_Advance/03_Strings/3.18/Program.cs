@@ -11,7 +11,6 @@
         if (string.IsNullOrEmpty(text))
         {
             Console.WriteLine("Invalid input. The string cannot be null or empty.");
-
             return;
         }
 
@@ -38,19 +37,59 @@
         */
 
         // Without regular expressions:
-        string[] textParts = text.Split(' ');
+        string[] textParts = text.Split(new char[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+
+        Console.WriteLine("\nValid Emails:");
 
         foreach (string part in textParts)
         {
-            if (part.Contains('@') && part.IndexOf('@') > 0)
+            if (IsValidEmailStructure(part))
             {
-                string hostAndDomain = part.Substring(part.IndexOf('@') + 1);
-
-                if (hostAndDomain.Contains('.') && hostAndDomain.IndexOf('.') > 0)
-                {
-                    Console.WriteLine(part);
-                }
+                Console.WriteLine(part);
             }
         }
+    }
+
+    static bool IsValidEmailStructure(string part)
+    {
+        int atCount = part.Count(c => c == '@');
+        if (atCount != 1)
+        {
+            return false;
+        }
+
+        int atIndex = part.IndexOf('@');
+        string localPart = part.Substring(0, atIndex);
+        string domainPart = part.Substring(atIndex + 1);
+
+        if (string.IsNullOrEmpty(localPart) || string.IsNullOrEmpty(domainPart))
+        {
+            return false;
+        }
+
+        if (!domainPart.Contains('.'))
+        {
+            return false;
+        }
+
+        if (domainPart.StartsWith('.') || domainPart.EndsWith('.'))
+        {
+            return false;
+        }
+
+        if (part.Contains(".."))
+        {
+            return false;
+        }
+
+        int lastDotIndex = domainPart.LastIndexOf('.');
+        string tld = domainPart.Substring(lastDotIndex + 1);
+
+        if (tld.Length < 2)
+        {
+            return false;
+        }
+
+        return true;
     }
 }

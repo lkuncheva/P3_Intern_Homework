@@ -1,4 +1,6 @@
-﻿class Program
+﻿using System.Text;
+
+class Program
 {
     static void Main(string[] args)
     {
@@ -9,7 +11,6 @@
         if (string.IsNullOrEmpty(text))
         {
             Console.WriteLine("Invalid input. String is null or empty.");
-
             return;
         }
 
@@ -18,45 +19,71 @@
 
         if (string.IsNullOrEmpty(forbiddenWordsInput))
         {
-            Console.WriteLine("Invalid input. String is null or empty.");
-
+            Console.WriteLine("No forbidden words entered. Outputting original text.");
+            Console.WriteLine(text);
             return;
         }
 
         string[] forbiddenWords = forbiddenWordsInput.Split(' ');
 
-        // Case insensitive
-        /*
         StringBuilder result = new StringBuilder(text);
 
-        for (int i = 0; i < forbiddenWords.Length; i++)
+        foreach (string forbiddenWord in forbiddenWords)
         {
             int startIndex = 0;
 
-            while ((startIndex = result.ToString().IndexOf(forbiddenWords[i], startIndex, StringComparison.OrdinalIgnoreCase)) != -1)
+            while (startIndex < result.Length)
             {
-                for (int j = 0; j < forbiddenWords[i].Length; j++)
+                int matchIndex = result.ToString().IndexOf(
+                                forbiddenWord,
+                                startIndex,
+                                StringComparison.OrdinalIgnoreCase );
+
+                if (matchIndex == -1)
                 {
-                    result[startIndex + j] = '*';
+                    break;
                 }
 
-                startIndex += forbiddenWords[i].Length;
+                int wordLength = forbiddenWord.Length;
+
+                bool isLeftBoundaryGood;
+                if (matchIndex == 0)
+                {
+                    isLeftBoundaryGood = true;
+                }
+                else
+                {
+                    char leftChar = result[matchIndex - 1];
+                    isLeftBoundaryGood = !Char.IsLetterOrDigit(leftChar);
+                }
+
+                bool isRightBoundaryGood;
+                if (matchIndex + wordLength == result.Length)
+                {
+                    isRightBoundaryGood = true;
+                }
+                else
+                {
+                    char rightChar = result[matchIndex + wordLength];
+                    isRightBoundaryGood = !Char.IsLetterOrDigit(rightChar);
+                }
+
+                if (isLeftBoundaryGood && isRightBoundaryGood)
+                {
+                    for (int j = 0; j < wordLength; j++)
+                    {
+                        result[matchIndex + j] = '*';
+                    }
+
+                    startIndex = matchIndex + wordLength;
+                }
+                else
+                {
+                    startIndex = matchIndex + 1;
+                }
             }
         }
 
         Console.WriteLine(result.ToString());
-        */
-
-        // Case sensitive
-        for (int i = 0; i < forbiddenWords.Length; i++)
-        {
-            string asterisks = new string('*', forbiddenWords[i].Length);
-            if (text.Contains(forbiddenWords[i]))
-            {
-                text = text.Replace(forbiddenWords[i], asterisks);
-            }
-        }
-
-        Console.WriteLine(text);
     }
 }

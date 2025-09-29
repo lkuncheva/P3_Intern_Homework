@@ -16,9 +16,11 @@ class Program
 
         StringBuilder result = new StringBuilder();
 
-        for (int i = 0; i < input.Length; i++)
+        result.Append(input[0]);
+
+        for (int i = 1; i < input.Length; i++)
         {
-            if (i == 0 || input[i] != input[i - 1])
+            if (input[i] != input[i - 1])
             {
                 result.Append(input[i]);
             }

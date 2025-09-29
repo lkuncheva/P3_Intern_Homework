@@ -5,9 +5,9 @@
         Console.WriteLine("Enter a string: ");
         string input = Console.ReadLine();
 
-        if (string.IsNullOrEmpty(input))
+        if (string.IsNullOrWhiteSpace(input))
         {
-            Console.WriteLine("Invalid input. String is null or empty.");
+            Console.WriteLine("Invalid input. String is null or empty, or contains only whitespace.");
 
             return;
         }

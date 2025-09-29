@@ -10,20 +10,21 @@
 
             if (number < 0)
             {
-                throw new ArgumentOutOfRangeException("The number cannot be negative.");
+                Console.WriteLine("Invalid number.");
             }
-
-            double sqrt = Math.Sqrt(number);
-
-            Console.WriteLine($"{sqrt:F3}");
+            else
+            {
+                double sqrt = Math.Sqrt(number);
+                Console.WriteLine($"Result: {sqrt:F3}");
+            }
         }
         catch (FormatException)
         {
-            Console.WriteLine("Invalid number.");
+            Console.WriteLine("Invalid input format.");
         }
-        catch (ArgumentOutOfRangeException)
+        catch (Exception ex)
         {
-            Console.WriteLine("Invalid number.");
+            Console.WriteLine($"An unexpected error occurred: {ex.Message}");
         }
         finally
         {

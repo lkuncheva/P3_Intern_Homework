@@ -19,14 +19,15 @@
             return;
         }
 
-        if (dictionary.ContainsKey(input))
+        if (dictionary.TryGetValue(input, out string definitionFound))
         {
-            Console.WriteLine(dictionary[input]);
+            Console.WriteLine(definitionFound);
         }
         else
         {
             Console.WriteLine($"Word '{input}' not in dictionary. Do you want to add it? (y/n)");
             char answer;
+
             while (!char.TryParse(Console.ReadLine(), out answer) || ((answer != 'y') && (answer != 'n')))
             {
                 Console.WriteLine("Invalid input. Please enter y or n: ");
@@ -36,10 +37,10 @@
             {
                 Console.WriteLine("Enter definition:");
                 string definition = Console.ReadLine();
+
                 if (string.IsNullOrEmpty(definition))
                 {
                     Console.WriteLine("Invalid input. The string cannot be null or empty.");
-
                     return;
                 }
 
@@ -55,7 +56,6 @@
             else
             {
                 Console.WriteLine("No changes made to dictionary.");
-
                 return;
             }
         }

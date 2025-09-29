@@ -8,13 +8,12 @@
         if (string.IsNullOrEmpty(input))
         {
             Console.WriteLine("Invalid input. The string cannot be null or empty.");
-
             return;
         }
 
         char[] signs = { ',', '!', '.', '?', ';', ':'};
         
-        string[] words = input.Split(' ');
+        string[] words = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
         char[] signsInPlace = new char[words.Length];
 
         for (int i = 0; i < words.Length; i++)

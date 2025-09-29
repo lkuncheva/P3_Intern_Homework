@@ -19,7 +19,13 @@ class Program
 
         char[] punctuation = { ',', '.', '!', '?', ';' };
         string[] textParts = text.Split(' ');
-        string formatString = "dd.MM.yyyy";
+        string[] formatStrings = new string[]
+        {
+            "dd.MM.yyyy",
+            "d.M.yyyy",
+            "dd.M.yyyy",
+            "d.MM.yyyy"
+        };
 
         CultureInfo canadianCulture = new CultureInfo("en-CA");
 
@@ -28,7 +34,7 @@ class Program
             string cleanedPart = part.TrimEnd(punctuation);
 
             DateTime date;
-            if (DateTime.TryParseExact(cleanedPart, formatString, CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
+            if (DateTime.TryParseExact(cleanedPart, formatStrings, CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
             {
                 Console.WriteLine(date.ToString("d", canadianCulture));
             }

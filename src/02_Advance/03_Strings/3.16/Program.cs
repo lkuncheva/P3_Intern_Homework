@@ -12,7 +12,6 @@ class Program
         if (string.IsNullOrEmpty(input1))
         {
             Console.WriteLine("Invalid input. The string cannot be null or empty.");
-
             return;
         }
 
@@ -24,7 +23,6 @@ class Program
         if (string.IsNullOrEmpty(input2))
         {
             Console.WriteLine("Invalid input. The string cannot be null or empty.");
-
             return;
         }
 
@@ -32,7 +30,7 @@ class Program
 
         TimeSpan difference = date2 - date1;
 
-        int days = (int)Math.Abs(difference.TotalDays);
+        int days = Math.Abs(difference.Days);
         Console.WriteLine($"\nDistance: {days} days");
     }
 }

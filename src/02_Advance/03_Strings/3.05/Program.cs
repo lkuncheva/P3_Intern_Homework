@@ -23,21 +23,23 @@
                 break;
             }
 
-            int endIndex = text.IndexOf(closingTag, startIndex);
+            int endIndex = text.IndexOf(closingTag, startIndex + openingTag.Length);
 
             if (endIndex == -1)
             {
                 Console.WriteLine("Invalid input.");
-                break;
+                return;
             }
 
             int contentStart = startIndex + openingTag.Length;
             int contentLength = endIndex - contentStart;
+
             string content = text.Substring(contentStart, contentLength);
 
-            string textToReplace = openingTag + content + closingTag;
+            string prefix = text.Substring(0, startIndex);
+            string suffix = text.Substring(endIndex + closingTag.Length);
 
-            text = text.Replace(textToReplace, content.ToUpper());
+            text = prefix + content.ToUpper() + suffix;
         }
 
         Console.WriteLine(text);

@@ -2,38 +2,44 @@
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
-        string remoteUri = "https://jollycontrarian.com/images/6/6c/Rickroll.jpg";
+        using HttpClient client = new HttpClient();
 
+        string remoteUri = "https://jollycontrarian.com/images/6/6c/Rickroll.jpg";
         string fileName = "hihi.jpg";
         string filePath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
 
         Console.WriteLine($"Attempting to download '{remoteUri}'...");
         Console.WriteLine($"Saving to: {filePath}\n");
 
-        WebClient webClient = null;
-
         try
         {
-            webClient = new WebClient();
-            webClient.DownloadFile(remoteUri, filePath);
+            using HttpResponseMessage response = await client.GetAsync(remoteUri);
 
-            Console.WriteLine("File downloaded successfully!");
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine($"Download failed. HTTP Status Code: {(int)response.StatusCode} - {response.ReasonPhrase}");
+                return;
+            }
+
+            using (Stream contentStream = await response.Content.ReadAsStreamAsync())
+            {
+                using (FileStream fileStream = File.Create(filePath))
+                {
+                    await contentStream.CopyToAsync(fileStream);
+                    Console.WriteLine("File downloaded successfully!");
+                }
+            }
         }
-        catch (WebException ex)
+        catch (HttpRequestException ex)
         {
             Console.WriteLine($"Download failed due to a network error: {ex.Message}");
-            if (ex.Status == WebExceptionStatus.ProtocolError)
-            {
-                HttpWebResponse response = (HttpWebResponse)ex.Response;
-                Console.WriteLine($"HTTP Status Code: {(int)response.StatusCode} - {response.StatusCode}");
-            }
         }
         catch (UnauthorizedAccessException)
         {
             Console.WriteLine($"Error: Permission denied. The program could not save the file to '{filePath}'.");
-            Console.WriteLine("Please check the folder permissions or run the program as an administrator.");
+            Console.WriteLine("Please check the folder permissions.");
         }
         catch (IOException ex)
         {
@@ -45,11 +51,7 @@ public class Program
         }
         finally
         {
-            if (webClient != null)
-            {
-                webClient.Dispose();
-                Console.WriteLine("\nResources have been released.");
-            }
+            Console.WriteLine("\nTask complete.");
         }
     }
 }
