@@ -1,5 +1,5 @@
-﻿using _04._01;
-using System.Text;
+﻿using System.Text;
+namespace _04._01;
 
 public class GSM
 {

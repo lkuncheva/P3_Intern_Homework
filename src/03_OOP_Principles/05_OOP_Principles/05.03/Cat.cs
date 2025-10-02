@@ -1,12 +1,11 @@
-﻿namespace AnimalHierarchy
-{
-    public class Cat : Animal
-    {
-        public Cat(string name, int age, Sex sex) : base(name, age, sex) { }
+﻿namespace AnimalHierarchy;
 
-        public override string ProduceSound()
-        {
-            return "Meow!";
-        }
+public class Cat : Animal
+{
+    public Cat(string name, int age, Sex sex) : base(name, age, sex) { }
+
+    public override string ProduceSound()
+    {
+        return "Meow!";
     }
 }

@@ -1,8 +1,7 @@
-﻿namespace BankAccounts
+﻿namespace BankAccounts;
+
+public enum CustomerType
 {
-    public enum CustomerType
-    {
-        Individual,
-        Company
-    }
+    Individual,
+    Company
 }

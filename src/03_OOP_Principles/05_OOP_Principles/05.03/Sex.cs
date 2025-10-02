@@ -1,8 +1,7 @@
-﻿namespace AnimalHierarchy
+﻿namespace AnimalHierarchy;
+
+public enum Sex
 {
-    public enum Sex
-    {
-        Female,
-        Male
-    }
+    Female,
+    Male
 }

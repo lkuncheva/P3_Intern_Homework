@@ -1,17 +1,16 @@
-﻿namespace _04._02
+﻿namespace _04._02;
+
+public class Path
 {
-    public class Path
+    public List<Point3D> Points3DList { get; set; }
+
+    public Path()
     {
-        public List<Point3D> Points3DList { get; set; }
+        this.Points3DList = new List<Point3D>();
+    }
 
-        public Path()
-        {
-            this.Points3DList = new List<Point3D>();
-        }
-
-        public void AddPoint(Point3D point)
-        {
-            this.Points3DList.Add(point);
-        }
+    public void AddPoint(Point3D point)
+    {
+        this.Points3DList.Add(point);
     }
 }

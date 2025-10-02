@@ -1,35 +1,34 @@
-﻿namespace StudentsAndWorkers
+﻿namespace StudentsAndWorkers;
+
+public class Worker : Human
 {
-    public class Worker : Human
+    private const int WorkDaysPerWeek = 5;
+
+    public decimal WeekSalary { get; private set; }
+
+    public double WorkHoursPerDay { get; private set; }
+
+    public Worker(string firstName, string lastName, decimal weekSalary, double workHoursPerDay)
+        : base(firstName, lastName)
     {
-        private const int WorkDaysPerWeek = 5;
+        WeekSalary = weekSalary;
+        WorkHoursPerDay = workHoursPerDay;
+    }
 
-        public decimal WeekSalary { get; private set; }
+    public decimal MoneyPerHour()
+    {
+        double totalWeeklyHours = WorkHoursPerDay * WorkDaysPerWeek;
 
-        public double WorkHoursPerDay { get; private set; }
-
-        public Worker(string firstName, string lastName, decimal weekSalary, double workHoursPerDay)
-            : base(firstName, lastName)
+        if (totalWeeklyHours == 0)
         {
-            WeekSalary = weekSalary;
-            WorkHoursPerDay = workHoursPerDay;
+            return 0M;
         }
 
-        public decimal MoneyPerHour()
-        {
-            double totalWeeklyHours = WorkHoursPerDay * WorkDaysPerWeek;
+        return WeekSalary / (decimal)totalWeeklyHours;
+    }
 
-            if (totalWeeklyHours == 0)
-            {
-                return 0M;
-            }
-
-            return WeekSalary / (decimal)totalWeeklyHours;
-        }
-
-        public override string ToString()
-        {
-            return $"{base.ToString()}, Salary: {WeekSalary:C}, Hours/Day: {WorkHoursPerDay:F1}, Hourly Rate: {MoneyPerHour():C}";
-        }
+    public override string ToString()
+    {
+        return $"{base.ToString()}, Salary: {WeekSalary:C}, Hours/Day: {WorkHoursPerDay:F1}, Hourly Rate: {MoneyPerHour():C}";
     }
 }

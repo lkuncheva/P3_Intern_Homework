@@ -1,12 +1,11 @@
-﻿namespace Shapes
-{
-    public class Square : Shape
-    {
-        public Square(double side) : base(side, side) { }
+﻿namespace Shapes;
 
-        public override double CalculateSurface()
-        {
-            return Width * Height;
-        }
+public class Square : Shape
+{
+    public Square(double side) : base(side, side) { }
+
+    public override double CalculateSurface()
+    {
+        return Width * Height;
     }
 }

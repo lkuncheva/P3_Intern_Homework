@@ -1,10 +1,9 @@
-﻿namespace _04._01
+﻿namespace _04._01;
+
+public enum BatteryType
 {
-    public enum BatteryType
-    {
-        LiIon,
-        NiMH,
-        NiCd,
-        Unknown
-    }
+    LiIon,
+    NiMH,
+    NiCd,
+    Unknown
 }

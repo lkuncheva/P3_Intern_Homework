@@ -1,8 +1,7 @@
-﻿namespace BankAccounts
+﻿namespace BankAccounts;
+
+public interface IAccount
 {
-    public interface IAccount
-    {
-        void Deposit(decimal amount);
-        decimal CalculateInterest(int months);
-    }
+    void Deposit(decimal amount);
+    decimal CalculateInterest(int months);
 }

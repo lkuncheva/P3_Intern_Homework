@@ -1,189 +1,187 @@
 ﻿using System.Text;
 
-namespace _04._02
+namespace _04._02;
+
+public class GenericList<T> where T : IComparable<T>
 {
-    public class GenericList<T> where T : IComparable<T>
+    private T[] elements;
+    private int count;
+
+    public int Count
     {
-        private T[] elements;
-        private int count;
-        private const int DEFAULT_CAPACITY = 4;
+        get { return this.count; }
+    }
 
-        public int Count
+    public int Capacity
+    {
+        get { return this.elements.Length; }
+    }
+
+    public GenericList(int capacity)
+    {
+        if (capacity < 0)
         {
-            get { return this.count; }
+            throw new ArgumentOutOfRangeException("Capacity cannot be negative.");
         }
 
-        public int Capacity
+        this.elements = new T[capacity];
+        this.count = 0;
+    }
+
+    public void Add(T element)
+    {
+        if (this.count >= this.elements.Length)
         {
-            get { return this.elements.Length; }
+            this.Grow();
         }
 
-        public GenericList(int capacity = DEFAULT_CAPACITY)
-        {
-            if (capacity < 0)
-            {
-                throw new ArgumentOutOfRangeException("Capacity cannot be negative.");
-            }
+        this.elements[this.count] = element;
+        this.count++;
+    }
 
-            this.elements = new T[capacity];
-            this.count = 0;
+    public T Access(int index)
+    {
+        if (index < 0 || index >= this.count)
+        {
+            throw new IndexOutOfRangeException("Index is outside the valid range of the list.");
         }
 
-        public void Add(T element)
-        {
-            if (this.count >= this.elements.Length)
-            {
-                this.Grow();
-            }
+        return this.elements[index];
+    }
 
-            this.elements[this.count] = element;
-            this.count++;
+    public void RemoveAt(int index)
+    {
+        if (index < 0 || index >= this.count)
+        {
+            throw new IndexOutOfRangeException("Index is outside the valid range of the list.");
         }
 
-        public T Access(int index)
+        for (int i = index; i < this.count - 1; i++)
         {
-            if (index < 0 || index >= this.count)
-            {
-                throw new IndexOutOfRangeException("Index is outside the valid range of the list.");
-            }
-
-            return this.elements[index];
+            this.elements[i] = this.elements[i + 1];
         }
 
-        public void RemoveAt(int index)
+        this.elements[this.count - 1] = default(T);
+        this.count--;
+    }
+
+    public void InsertAt(T element, int index)
+    {
+        if (index < 0 || index > this.count)
         {
-            if (index < 0 || index >= this.count)
-            {
-                throw new IndexOutOfRangeException("Index is outside the valid range of the list.");
-            }
-
-            for (int i = index; i < this.count - 1; i++)
-            {
-                this.elements[i] = this.elements[i + 1];
-            }
-
-            this.elements[this.count - 1] = default(T);
-            this.count--;
+            throw new IndexOutOfRangeException("Index is outside the valid range for insertion.");
         }
 
-        public void InsertAt(T element, int index)
+        if (this.count >= this.elements.Length)
         {
-            if (index < 0 || index > this.count)
-            {
-                throw new IndexOutOfRangeException("Index is outside the valid range for insertion.");
-            }
-
-            if (this.count >= this.elements.Length)
-            {
-                this.Grow();
-            }
-
-            for (int i = this.count; i > index; i--)
-            {
-                this.elements[i] = this.elements[i - 1];
-            }
-
-            this.elements[index] = element;
-            this.count++;
+            this.Grow();
         }
 
-        public void Clear()
+        for (int i = this.count; i > index; i--)
         {
-            this.count = 0;
+            this.elements[i] = this.elements[i - 1];
+        }
 
-            for (int i = 0; i < this.elements.Length; i++)
+        this.elements[index] = element;
+        this.count++;
+    }
+
+    public void Clear()
+    {
+        this.count = 0;
+
+        for (int i = 0; i < this.elements.Length; i++)
+        {
+            this.elements[i] = default(T);
+        }
+    }
+
+    public int FindByValue(T value)
+    {
+        for (int i = 0; i < this.count; i++)
+        {
+            if (object.Equals(this.elements[i], value))
             {
-                this.elements[i] = default(T);
+                return i;
             }
         }
 
-        public int FindByValue(T value)
-        {
-            for (int i = 0; i < this.count; i++)
-            {
-                if (object.Equals(this.elements[i], value))
-                {
-                    return i;
-                }
-            }
+        return -1;
+    }
 
-            return -1;
+    public T Min()
+    {
+        if (this.count == 0)
+        {
+            throw new InvalidOperationException("The list is empty. Cannot find the minimum element.");
         }
 
-        public T Min()
+        T currentMin = this.elements[0];
+        for (int i = 1; i < this.count; i++)
         {
-            if (this.count == 0)
+            if (currentMin.CompareTo(this.elements[i]) > 0)
             {
-                throw new InvalidOperationException("The list is empty. Cannot find the minimum element.");
+                currentMin = this.elements[i];
             }
-
-            T currentMin = this.elements[0];
-            for (int i = 1; i < this.count; i++)
-            {
-                if (currentMin.CompareTo(this.elements[i]) > 0)
-                {
-                    currentMin = this.elements[i];
-                }
-            }
-
-            return currentMin;
         }
 
-        public T Max()
+        return currentMin;
+    }
+
+    public T Max()
+    {
+        if (this.count == 0)
         {
-            if (this.count == 0)
-            {
-                throw new InvalidOperationException("The list is empty. Cannot find the maximum element.");
-            }
-
-            T currentMax = this.elements[0];
-            for (int i = 1; i < this.count; i++)
-            {
-                if (currentMax.CompareTo(this.elements[i]) < 0)
-                {
-                    currentMax = this.elements[i];
-                }
-            }
-
-            return currentMax;
+            throw new InvalidOperationException("The list is empty. Cannot find the maximum element.");
         }
 
-        public override string ToString()
+        T currentMax = this.elements[0];
+        for (int i = 1; i < this.count; i++)
         {
-            if (this.count == 0)
+            if (currentMax.CompareTo(this.elements[i]) < 0)
             {
-                return "GenericList<T> is empty.";
+                currentMax = this.elements[i];
             }
-
-            StringBuilder sb = new StringBuilder();
-
-            sb.Append("List elements: [");
-
-            for (int i = 0; i < this.count; i++)
-            {
-                sb.Append(this.elements[i].ToString());
-                if (i < this.count - 1)
-                {
-                    sb.Append(", ");
-                }
-            }
-
-            sb.Append("]");
-
-            return sb.ToString();
         }
 
-        private void Grow()
+        return currentMax;
+    }
+
+    public override string ToString()
+    {
+        if (this.count == 0)
         {
-            int newCapacity = this.elements.Length == 0 ? DEFAULT_CAPACITY : this.elements.Length * 2;
-
-            T[] newElements = new T[newCapacity];
-
-            Array.Copy(this.elements, newElements, this.count);
-
-            this.elements = newElements;
-
-            Console.WriteLine($"\n--> List grew! New capacity: {this.elements.Length}");
+            return "GenericList<T> is empty.";
         }
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append("List elements: [");
+
+        for (int i = 0; i < this.count; i++)
+        {
+            sb.Append(this.elements[i].ToString());
+            if (i < this.count - 1)
+            {
+                sb.Append(", ");
+            }
+        }
+
+        sb.Append("]");
+
+        return sb.ToString();
+    }
+
+    private void Grow()
+    {
+        int newCapacity = this.elements.Length * 2;
+
+        T[] newElements = new T[newCapacity];
+
+        Array.Copy(this.elements, newElements, this.count);
+
+        this.elements = newElements;
+
+        Console.WriteLine($"\n--> List grew! New capacity: {this.elements.Length}");
     }
 }

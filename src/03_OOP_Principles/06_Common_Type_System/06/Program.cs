@@ -1,4 +1,4 @@
-﻿using _06;
+﻿namespace _06;
 
 public class Program
 {

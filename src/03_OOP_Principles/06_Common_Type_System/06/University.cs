@@ -1,17 +1,16 @@
-﻿namespace _06
+﻿namespace _06;
+
+public enum University
 {
-    public enum University
-    {
-        MIT,
-        Imperial,
-        Stanford,
-        Oxford,
-        Harvard,
-        Cambridge,
-        UCL,
-        Caltech,
-        Yale,
-        Sofiiski,
-        NovBulgarski
-    }
+    MIT,
+    Imperial,
+    Stanford,
+    Oxford,
+    Harvard,
+    Cambridge,
+    UCL,
+    Caltech,
+    Yale,
+    Sofiiski,
+    NovBulgarski
 }

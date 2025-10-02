@@ -124,23 +124,15 @@ namespace _04._02
 
         public static bool operator true(Matrix<T> matrix)
         {
-            T zero = T.AdditiveIdentity;
-
-            for (int i = 0; i < matrix.Rows; i++)
-            {
-                for (int j = 0; j < matrix.Cols; j++)
-                {
-                    if (!matrix[i, j].Equals(zero))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
+            return !IsZeroMatrix(matrix);
         }
 
         public static bool operator false(Matrix<T> matrix)
+        {
+            return IsZeroMatrix(matrix);
+        }
+
+        private static bool IsZeroMatrix(Matrix<T> matrix)
         {
             T zero = T.AdditiveIdentity;
 
@@ -157,7 +149,6 @@ namespace _04._02
 
             return true;
         }
-
 
         public override string ToString()
         {

@@ -1,7 +1,6 @@
-﻿namespace AnimalHierarchy
+﻿namespace AnimalHierarchy;
+
+public interface ISound
 {
-    public interface ISound
-    {
-        string ProduceSound();
-    }
+    string ProduceSound();
 }

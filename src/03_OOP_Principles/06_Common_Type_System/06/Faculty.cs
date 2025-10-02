@@ -1,14 +1,13 @@
-﻿namespace _06
+﻿namespace _06;
+
+public enum Faculty
 {
-    public enum Faculty
-    {
-        TechnicalSciences,
-        LegalStudies,
-        MedicalSchool,
-        ArtsAndSciences,
-        Economics,
-        Humanities,
-        Engineering,
-        Mathematics
-    }
+    TechnicalSciences,
+    LegalStudies,
+    MedicalSchool,
+    ArtsAndSciences,
+    Economics,
+    Humanities,
+    Engineering,
+    Mathematics
 }

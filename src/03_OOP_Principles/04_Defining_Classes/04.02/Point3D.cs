@@ -1,4 +1,5 @@
-﻿public struct Point3D
+﻿namespace _04._02;
+public struct Point3D
 {
     public double X { get; set; }
     public double Y { get; set; }

@@ -1,4 +1,4 @@
-﻿using Shapes;
+﻿namespace Shapes;
 
 public class Program
 {

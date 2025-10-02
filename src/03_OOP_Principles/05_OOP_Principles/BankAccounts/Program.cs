@@ -1,4 +1,4 @@
-﻿using BankAccounts;
+﻿namespace BankAccounts;
 public class Program()
 {
     public static void Main(string[] args)

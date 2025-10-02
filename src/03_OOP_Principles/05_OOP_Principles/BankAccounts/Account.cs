@@ -1,34 +1,33 @@
-﻿namespace BankAccounts
+﻿namespace BankAccounts;
+
+public abstract class Account : IAccount
 {
-    public abstract class Account : IAccount
+    public CustomerType Customer { get; protected set; }
+    public decimal Balance { get; protected set; }
+    public double InterestRate { get; protected set; }
+
+    protected Account(CustomerType customer, decimal balance, double interestRate)
     {
-        public CustomerType Customer { get; protected set; }
-        public decimal Balance { get; protected set; }
-        public double InterestRate { get; protected set; }
+        Customer = customer;
+        Balance = balance;
+        InterestRate = interestRate;
+    }
 
-        protected Account(CustomerType customer, decimal balance, double interestRate)
+    public void Deposit(decimal amount)
+    {
+        if (amount <= 0)
         {
-            Customer = customer;
-            Balance = balance;
-            InterestRate = interestRate;
+            throw new ArgumentException("Deposit amount must be positive.");
         }
 
-        public void Deposit(decimal amount)
-        {
-            if (amount <= 0)
-            {
-                throw new ArgumentException("Deposit amount must be positive.");
-            }
+        Balance += amount;
+        Console.WriteLine($"Deposited {amount:C}. New Balance: {Balance:C}.");
+    }
 
-            Balance += amount;
-            Console.WriteLine($"Deposited {amount:C}. New Balance: {Balance:C}.");
-        }
+    public abstract decimal CalculateInterest(int months);
 
-        public abstract decimal CalculateInterest(int months);
-
-        protected decimal GetBaseInterest(int months)
-        {
-            return Math.Round(Balance * (decimal)InterestRate * months, 2);
-        }
+    protected decimal GetBaseInterest(int months)
+    {
+        return Math.Round(Balance * (decimal)InterestRate * months, 2);
     }
 }
