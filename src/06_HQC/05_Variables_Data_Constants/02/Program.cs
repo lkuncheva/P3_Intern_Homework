@@ -13,7 +13,7 @@
         double sum = 0;
         double average;
 
-        for (int i = 0; i < numbers.Length; i++)
+        for (int i = 1; i < numbers.Length; i++)
         {
             if (numbers[i] > maxElement)
             {
