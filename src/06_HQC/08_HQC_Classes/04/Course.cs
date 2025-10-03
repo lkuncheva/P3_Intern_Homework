@@ -6,9 +6,9 @@ public abstract class Course
 {
     public string Name { get; }
     public string? TeacherName { get; set; }
-    public IList<string> Students { get; }
+    public IList<string>? Students { get; }
 
-    public Course(string name, string? teacherName = null, IList<string> students = null)
+    public Course(string name, string? teacherName = null, IList<string>? students = null)
     {
         if (string.IsNullOrWhiteSpace(name))
         {
