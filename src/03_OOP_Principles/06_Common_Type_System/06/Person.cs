@@ -5,17 +5,6 @@ public class Person
     public string Name { get; set; }
     public int? Age { get; set; }
 
-    public Person(string name)
-    {
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            throw new ArgumentException("Name cannot be empty.");
-        }
-
-        Name = name;
-        Age = null;
-    }
-
     public Person(string name, int? age = null)
     {
         if (string.IsNullOrWhiteSpace(name))

@@ -14,7 +14,7 @@ public class Student : ICloneable
         }
     }
 
-    public string SSN { get; set; }
+    public string? SSN { get; set; }
 
     public string PermanentAddress { get; set; }
     public string MobilePhone { get; set; }
@@ -25,7 +25,7 @@ public class Student : ICloneable
     public University University { get; set; }
     public Faculty Faculty { get; set; }
 
-    public Student(string firstName, string middleName, string lastName, string ssn,
+    public Student(string firstName, string middleName, string lastName, string? ssn,
                     string address, string mobile, string email, string course,
                     Specialty specialty, University university, Faculty faculty)
     {
@@ -42,24 +42,19 @@ public class Student : ICloneable
         Faculty = faculty;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
-        if (obj == null)
+        if (obj is not Student otherStudent || obj is null || this.SSN is null)
         {
             return false;
         }
 
-        if (obj is Student otherStudent)
-        {
-            return this.SSN == otherStudent.SSN;
-        }
-
-        return false;
+        return this.SSN == otherStudent.SSN;
     }
 
     public override int GetHashCode()
     {
-        return SSN.GetHashCode();
+        return SSN?.GetHashCode() ?? 0;
     }
 
     public override string ToString()
@@ -94,8 +89,20 @@ public class Student : ICloneable
 
     public object Clone()
     {
-        Student clonedStudent = (Student)this.MemberwiseClone();
+        Student deepCopy = new Student(
+            this.FirstName,
+            this.MiddleName,
+            this.LastName,
+            this.SSN,
+            this.PermanentAddress,
+            this.MobilePhone,
+            this.Email,
+            this.Course,
+            this.Specialty,
+            this.University,
+            this.Faculty
+        );
 
-        return clonedStudent;
+        return deepCopy;
     }
 }
