@@ -1,0 +1,27 @@
+1. What is SQL ? What is DML ? What is DDL? Recite the most important SQL commands.
+
+
+- SQL (Structured Query Language) is the standard languade used storing, managing and manipulating data stored in RDBMS (a.k.a operating databases).
+
+- DML (Data Manipulation Language) is a language used to managing and modifying data in a database. It uses commands like SELECT, INSERT, UPDATE, and DELETE, which are used for querying, adding, modifying, and removing data, respectively.
+
+- DDL (Data Definition Language) is a language used to define and manage the structure/schema of a database and its objects. It controls the database's architecture without handling the actual data.
+
+- SQL Commands:
+  SELECT - extracts data from a database.
+  FROM - specifies the table the data is being fetched from.
+  WHERE - filters records based on a specified condition.
+  JOIN - Combines rows from two or more tables based on a related column.
+  ORDER BY - Sorts the result set by a specified column.
+  UPDATE - updates data in a database.
+  DELETE - deletes data from a database.
+  INSERT INTO - inserts new data into a database.
+  CREATE - creates new database, table, or another database object.
+  ALTER - modifies an existing db, table, or another database object.
+  DROP - deletes a db, table, or another database object.
+
+
+2. What is Transact-SQL (T-SQL)?
+
+Transact-SQL is database manipulation language, an extension to SQL
+It expands on standard SQL by adding powerful procedural programming features, control-of-flow logic, and advanced functions.
