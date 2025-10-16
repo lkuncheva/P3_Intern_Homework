@@ -46,14 +46,20 @@ public class AssertionsHomework
                          "Postcondition failed: Element at returned index is not the actual minimum in the range.");
         }
 
+        Debug.Assert(minElementIndex >= 0, "Postcondition failed: The returned index must be non-negative.");
+
         return minElementIndex;
     }
 
     private static void Swap<T>(ref T x, ref T y)
     {
         T oldX = x;
+        T oldY = y;
         x = y;
         y = oldX;
+
+        Debug.Assert(x.Equals(oldY), "Postcondition failed: x did not receive y's original value.");
+        Debug.Assert(y.Equals(oldX), "Postcondition failed: y did not receive x's original value.");
     }
 
     public static int BinarySearch<T>(T[] arr, T value) where T : IComparable<T>
@@ -80,8 +86,8 @@ public class AssertionsHomework
 
             if (arr[midIndex].Equals(value))
             {
-                Debug.Assert(arr[midIndex].Equals(value), "Postcondition failed: Found index does not contain the expected value.");
-                Debug.Assert(midIndex >= originalStartIndex && midIndex <= originalEndIndex, "Postcondition failed: Found index is outside the initial search range.");
+                Debug.Assert(midIndex >= originalStartIndex && midIndex <= originalEndIndex, 
+                            "Postcondition failed: Found index is outside the initial search range.");
                 return midIndex;
             }
 

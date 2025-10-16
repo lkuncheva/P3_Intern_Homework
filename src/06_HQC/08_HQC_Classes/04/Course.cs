@@ -5,14 +5,26 @@ namespace InheritanceAndPolymorphism;
 public abstract class Course
 {
     public string Name { get; }
-    public string? TeacherName { get; set; }
-    public IList<string>? Students { get; }
+    public string TeacherName { get; set; }
+    public IList<string> Students { get; }
 
-    public Course(string name, string? teacherName = null, IList<string>? students = null)
+    public Course(string name)
+    {
+        Name = name;
+        TeacherName = "N/A";
+        Students = new List<string>();
+    }
+
+    public Course(string name, string teacherName, IList<string> students)
     {
         if (string.IsNullOrWhiteSpace(name))
         {
             throw new ArgumentException("Course name is mandatory and cannot be null, empty, or whitespace.", nameof(name));
+        }
+
+        if (string.IsNullOrWhiteSpace(teacherName))
+        {
+            throw new ArgumentException("Teacher name is mandatory and cannot be null, empty, or whitespace.", nameof(teacherName));
         }
 
         Name = name;
@@ -27,20 +39,16 @@ public abstract class Course
             return "{ }";
         }
 
-        return "{ " + string.Join(", ", this.Students) + " }";
+        return "{ " + string.Join(", ", Students) + " }";
     }
 
     protected virtual StringBuilder GetBaseCourseInfo()
     {
-        StringBuilder result = new StringBuilder();
-        result.Append($" Name = {this.Name}");
+        var result = new StringBuilder();
 
-        if (!string.IsNullOrWhiteSpace(this.TeacherName))
-        {
-            result.Append($"; Teacher = {this.TeacherName}");
-        }
-
-        result.Append($"; Students = {this.GetStudentsAsString()}");
+        result.Append($" Name = {Name}");
+        result.Append($"; Teacher = {TeacherName}");
+        result.Append($"; Students = {GetStudentsAsString()}");
 
         return result;
     }

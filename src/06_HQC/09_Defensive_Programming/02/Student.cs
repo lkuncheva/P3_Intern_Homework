@@ -2,9 +2,9 @@
 
 public class Student
 {
-    public string FirstName { get; set; }
+    public string FirstName { get; private set; }
 
-    public string LastName { get; set; }
+    public string LastName { get; private set; }
 
     public IList<Exam>? Exams { get; set; }
 
@@ -12,12 +12,12 @@ public class Student
     {
         if (string.IsNullOrWhiteSpace(firstName))
         {
-            throw new ArgumentNullException("First name is mandatory and cannot be null, empty, or whitespace.", nameof(firstName));
+            throw new ArgumentNullException(nameof(firstName), "First name is mandatory and cannot be null, empty, or whitespace.");
         }
 
         if (string.IsNullOrWhiteSpace(lastName))
         {
-            throw new ArgumentNullException("Last name is mandatory and cannot be null, empty, or whitespace.", nameof(lastName));
+            throw new ArgumentNullException(nameof(lastName), "Last name is mandatory and cannot be null, empty, or whitespace.");
         }
 
         FirstName = firstName;
@@ -29,7 +29,7 @@ public class Student
     {
         if (Exams == null)
         {
-            throw new ArgumentNullException("The student's exam list is null. Cannot check exams.", nameof(Exams));
+            throw new ArgumentNullException(nameof(Exams), "The student's exam list is null. Cannot check exams.");
         }
 
         if (Exams.Count == 0)
@@ -50,7 +50,7 @@ public class Student
     {
         if (this.Exams == null)
         {
-            throw new ArgumentNullException("Cannot calculate average on a null exam list.", nameof(Exams));
+            throw new ArgumentNullException(nameof(Exams), "Cannot calculate average on a null exam list.");
         }
 
         if (this.Exams.Count == 0)

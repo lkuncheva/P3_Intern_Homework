@@ -2,17 +2,16 @@
 
 public class CSharpExam : Exam
 {
-    public const int MIN_SCORE = 0;
-    public const int MAX_SCORE = 100;
+    public const int MinScore = 0;
+    public const int MaxScore = 100;
 
     public int Score { get; private set; }
 
     public CSharpExam(int score)
     {
-        if (score < MIN_SCORE || score > MAX_SCORE)
+        if (score < MinScore || score > MaxScore)
         {
-            throw new ArgumentOutOfRangeException($"Score must be between {MIN_SCORE} and {MAX_SCORE} inclusive.",
-                                                  nameof(score));
+            throw new ArgumentOutOfRangeException(nameof(score), $"Score must be between {MinScore} and {MaxScore} inclusive.");
         }
 
         Score = score;
@@ -20,6 +19,6 @@ public class CSharpExam : Exam
 
     public override ExamResult Check()
     {
-        return new ExamResult(Score, MIN_SCORE, MAX_SCORE, "Exam results calculated by score.");
+        return new ExamResult(Score, MinScore, MaxScore, "Exam results calculated by score.");
     }
 }

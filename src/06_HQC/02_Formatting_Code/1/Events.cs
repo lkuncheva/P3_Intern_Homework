@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-class Event : IComparable<Event>
+public class Event : IComparable<Event>
 {
     public DateTime Date { get; set; }
     public string Title { get; set; }
@@ -8,31 +8,31 @@ class Event : IComparable<Event>
 
     public Event(DateTime date, string title, string location)
     {
-        this.Date = date;
-        this.Title = title;
-        this.Location = location;
+        Date = date;
+        Title = title;
+        Location = location;
     }
 
-    public int CompareTo(Event other)
+    public int CompareTo(Event? other)
     {
         if (other == null)
         {
             return 1;
         }
 
-        int byDate = this.Date.CompareTo(other.Date);
+        int byDate = Date.CompareTo(other.Date);
         if (byDate != 0)
         {
             return byDate;
         }
 
-        int byTitle = this.Title.CompareTo(other.Title);
+        int byTitle = Title.CompareTo(other.Title);
         if (byTitle != 0)
         {
             return byTitle;
         }
 
-        return this.Location.CompareTo(other.Location);
+        return Location.CompareTo(other.Location);
     }
 
     public int CompareTo(object obj)
@@ -61,105 +61,105 @@ class Event : IComparable<Event>
     }
 }
 
-class Program
+public class EventHolder
 {
-    static readonly StringBuilder Output = new StringBuilder();
-    static readonly EventHolder Events = new EventHolder();
+    private MultiDictionary<string, Event> byTitle = new MultiDictionary<string, Event>(true);
+    private OrderedBag<Event> byDate = new OrderedBag<Event>();
 
-    private static class Messages
+    public void AddEvent(DateTime date, string title, string location)
     {
-        public static void EventAdded()
+        Event newEvent = new Event(date, title, location);
+
+        byTitle.Add(title.ToLowerInvariant(), newEvent);
+        byDate.Add(newEvent);
+        Messages.EventAdded();
+    }
+
+    public void DeleteEvents(string titleToDelete)
+    {
+        string titleKey = titleToDelete.ToLowerInvariant();
+        int removedCount = 0;
+
+        if (byTitle.ContainsKey(titleKey))
         {
-            Output.Append("Event added\n");
+            var eventsToRemove = byTitle[titleKey].ToList();
+
+            foreach (var eventToRemove in eventsToRemove)
+            {
+                byDate.Remove(eventToRemove);
+                removedCount++;
+            }
+
+            byTitle.Remove(titleKey);
         }
 
-        public static void EventDeleted(int deletedCount)
+        Messages.EventDeleted(removedCount);
+    }
+
+    public void ListEvents(DateTime date, int count)
+    {
+        Event searchStartEvent = new Event(date, string.Empty, string.Empty);
+
+        OrderedBag<Event>.View eventsToShow = byDate.RangeFrom(searchStartEvent, true);
+
+        int showed = 0;
+        foreach (var eventToShow in eventsToShow)
         {
-            if (deletedCount == 0)
+            if (showed >= count)
             {
-                NoEventsFound();
+                break;
             }
-            else
-            {
-                Output.AppendFormat($"{deletedCount} events deleted\n");
-            }
+
+            Messages.PrintEvent(eventToShow);
+            showed++;
         }
 
-        public static void NoEventsFound()
+        if (showed == 0)
         {
-            Output.Append("No events found\n");
+            Messages.NoEventsFound();
         }
+    }
+}
 
-        public static void PrintEvent(Event eventToPrint)
+public static class Messages
+{
+    public static void EventAdded()
+    {
+        Program.Output.Append("Event added\n");
+    }
+
+    public static void EventDeleted(int deletedCount)
+    {
+        if (deletedCount == 0)
         {
-            if (eventToPrint != null)
-            {
-                Output.Append(eventToPrint + "\n");
-            }
+            NoEventsFound();
+        }
+        else
+        {
+            Program.Output.AppendFormat($"{deletedCount} events deleted\n");
         }
     }
 
-    class EventHolder
+    public static void NoEventsFound()
     {
-        private MultiDictionary<string, Event> byTitle = new MultiDictionary<string, Event>(true);
-        private OrderedBag<Event> byDate = new OrderedBag<Event>();
-
-        public void AddEvent(DateTime date, string title, string location)
-        {
-            Event newEvent = new Event(date, title, location);
-
-            byTitle.Add(title.ToLowerInvariant(), newEvent);
-            byDate.Add(newEvent);
-            Messages.EventAdded();
-        }
-
-        public void DeleteEvents(string titleToDelete)
-        {
-            string titleKey = titleToDelete.ToLowerInvariant();
-            int removedCount = 0;
-
-            if (byTitle.ContainsKey(titleKey))
-            {
-                var eventsToRemove = byTitle[titleKey].ToList();
-
-                foreach (var eventToRemove in eventsToRemove)
-                {
-                    byDate.Remove(eventToRemove);
-                    removedCount++;
-                }
-
-                byTitle.Remove(titleKey);
-            }
-
-            Messages.EventDeleted(removedCount);
-        }
-
-        public void ListEvents(DateTime date, int count)
-        {
-            Event searchStartEvent = new Event(date, string.Empty, string.Empty);
-
-            OrderedBag<Event>.View eventsToShow = byDate.RangeFrom(searchStartEvent, true);
-
-            int showed = 0;
-            foreach (var eventToShow in eventsToShow)
-            {
-                if (showed >= count)
-                {
-                    break;
-                }
-
-                Messages.PrintEvent(eventToShow);
-                showed++;
-            }
-
-            if (showed == 0)
-            {
-                Messages.NoEventsFound();
-            }
-        }
+        Program.Output.Append("No events found\n");
     }
 
-    static void Main(string[] args)
+    public static void PrintEvent(Event eventToPrint)
+    {
+        if (eventToPrint != null)
+        {
+            Program.Output.Append(eventToPrint + "\n");
+        }
+    }
+}
+
+public class Program
+{
+    public static readonly StringBuilder Output = new StringBuilder();
+    public static readonly EventHolder Events = new EventHolder();
+
+    public static void Main(string[] args)
     {
         while (ExecuteNextCommand()) { }
 

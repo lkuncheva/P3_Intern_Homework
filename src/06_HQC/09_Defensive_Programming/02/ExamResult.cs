@@ -11,22 +11,23 @@ public class ExamResult
     {
         if (grade < 0)
         {
-            throw new ArgumentOutOfRangeException("Grade cannot be negative", nameof(grade));
+            throw new ArgumentOutOfRangeException(nameof(grade), "Grade cannot be negative");
         }
 
         if (minGrade < 0)
         {
-            throw new ArgumentOutOfRangeException("Min grade cannot be negative", nameof(minGrade));
+            throw new ArgumentOutOfRangeException(nameof(minGrade), "Min grade cannot be negative");
         }
 
         if (maxGrade <= minGrade)
         {
-            throw new ArgumentOutOfRangeException("Max grade cannot be less than the min grade", nameof(maxGrade), nameof(minGrade));
+            throw new ArgumentOutOfRangeException(nameof(maxGrade), nameof(minGrade), "Max grade cannot be less than the min grade");
         }
 
-        if (string.IsNullOrWhiteSpace(comments))
+        if (comments == null || string.IsNullOrWhiteSpace(comments))
         {
-            throw new ArgumentNullException("Comments are required for an exam result.", nameof(comments));
+            throw new ArgumentNullException(nameof(comments),
+                                            "Comments are required for an exam result and cannot be empty or consist only of whitespace.");
         }
 
         Grade = grade;

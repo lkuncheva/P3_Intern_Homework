@@ -2,6 +2,12 @@
 
 public static class Game
 {
+    private const string CommandTop = "top";
+    private const string CommandRestart = "restart";
+    private const string CommandExit = "exit";
+    private const string CommandTurn = "turn";
+    private const string CommandInvalid = "invalid";
+
     private static int CountRevealedCells(char[,] visibleBoard)
     {
         int count = 0;
@@ -20,13 +26,36 @@ public static class Game
         return count;
     }
 
+    private static void RestartGame(
+        out char[,] visibleBoard,
+        out char[,] mineField,
+        out int scoreCounter,
+        out bool exploded,
+        out bool isFirstTurn,
+        out bool hasWon)
+    {
+        visibleBoard = Board.CreateEmptyBoard();
+        mineField = Board.InitializeMineField();
+
+        Board.DisplayBoard(visibleBoard);
+
+        scoreCounter = 0;
+        exploded = false;
+        isFirstTurn = true;
+        hasWon = false;
+    }
+
     public static void GamePlay()
     {
+        RestartGame(
+            out char[,] visibleBoard,
+            out char[,] mineField,
+            out int scoreCounter,
+            out bool exploded,
+            out bool isFirstTurn,
+            out bool hasWon);
+
         string command = string.Empty;
-        char[,] visibleBoard = Board.CreateEmptyBoard();
-        char[,] mineField = Board.InitializeMineField();
-        int scoreCounter = 0;
-        bool exploded = false;
 
         List<PlayerScore> highScores = new List<PlayerScore>(6);
 
@@ -36,16 +65,12 @@ public static class Game
         int row = 0;
         int col = 0;
 
-        bool isFirstTurn = true;
-        bool hasWon = false;
-
         do
         {
             if (isFirstTurn)
             {
                 Console.WriteLine("Welcome to Minesweeper! Try your luck finding fields without mines. " +
                                   "Commands: 'top' (show scoreboard), 'restart' (start new game), 'exit' (quit).");
-                Board.DisplayBoard(visibleBoard);
                 isFirstTurn = false;
             }
 
@@ -65,35 +90,39 @@ public static class Game
                 if (row >= 0 && row < Board.BoardRows &&
                     col >= 0 && col < Board.BoardCols)
                 {
-                    command = "turn";
+                    command = CommandTurn;
+                }
+                else
+                {
+                    command = CommandInvalid;
                 }
             }
-            else if (command == "top" || command == "restart" || command == "exit") { }
-            else
+            else if (command != CommandTop && command != CommandRestart && command != CommandExit)
             {
-                command = "invalid";
+                command = CommandInvalid;
             }
 
             switch (command)
             {
-                case "top":
+                case CommandTop:
                     HighScores.DisplayHighScores(highScores);
                     break;
 
-                case "restart":
-                    visibleBoard = Board.CreateEmptyBoard();
-                    mineField = Board.InitializeMineField();
-                    Board.DisplayBoard(visibleBoard);
-                    exploded = false;
-                    isFirstTurn = true;
-                    scoreCounter = 0;
+                case CommandRestart:
+                    RestartGame(
+                        out visibleBoard,
+                        out mineField,
+                        out scoreCounter,
+                        out exploded,
+                        out isFirstTurn,
+                        out hasWon);
                     break;
 
-                case "exit":
+                case CommandExit:
                     Console.WriteLine("Goodbye! Thanks for playing!");
                     break;
 
-                case "turn":
+                case CommandTurn:
                     if (visibleBoard[row, col] == Board.CoverChar)
                     {
                         if (mineField[row, col] != Board.MineChar)
@@ -140,11 +169,13 @@ public static class Game
                 PlayerScore newScore = new PlayerScore(nickname, scoreCounter);
                 HighScores.UpdateHighScores(highScores, newScore);
 
-                visibleBoard = Board.CreateEmptyBoard();
-                mineField = Board.InitializeMineField();
-                scoreCounter = 0;
-                exploded = false;
-                isFirstTurn = true;
+                RestartGame(
+                        out visibleBoard,
+                        out mineField,
+                        out scoreCounter,
+                        out exploded,
+                        out isFirstTurn,
+                        out hasWon);
             }
 
             if (hasWon)
@@ -158,12 +189,14 @@ public static class Game
                 PlayerScore winningScore = new PlayerScore(name, scoreCounter);
                 HighScores.UpdateHighScores(highScores, winningScore);
 
-                visibleBoard = Board.CreateEmptyBoard();
-                mineField = Board.InitializeMineField();
-                scoreCounter = 0;
-                hasWon = false;
-                isFirstTurn = true;
+                RestartGame(
+                        out visibleBoard,
+                        out mineField,
+                        out scoreCounter,
+                        out exploded,
+                        out isFirstTurn,
+                        out hasWon);
             }
-        } while (command != "exit");
+        } while (command != CommandExit);
     }
 }

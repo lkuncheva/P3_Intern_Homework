@@ -4,9 +4,9 @@ class Student
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string BirthCity { get; set; }
-    public DateTime? DateOfBirth { get; set; }
+    public DateTime DateOfBirth { get; set; }
 
-    public Student(string firstName, string lastName, string birthCity, DateTime? dateOfBirth)
+    public Student(string firstName, string lastName, string birthCity, DateTime dateOfBirth)
     {
         if (string.IsNullOrWhiteSpace(firstName))
         {
@@ -41,6 +41,6 @@ class Student
             throw new ArgumentNullException(nameof(otherStudent), "Cannot compare age to a null student object.");
         }
 
-        return this.DateOfBirth > otherStudent.DateOfBirth;
+        return DateOfBirth < otherStudent.DateOfBirth;
     }
 }

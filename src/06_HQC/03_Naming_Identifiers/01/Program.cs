@@ -1,6 +1,6 @@
 ﻿public class Class123
 {
-    private const int MAX_COUNT = 6;
+    private const int MaxCount = 6;
     public class InnerClass
     {
         public void InnerClassMethod(bool inputVariable)

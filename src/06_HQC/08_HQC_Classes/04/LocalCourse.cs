@@ -4,43 +4,30 @@ namespace InheritanceAndPolymorphism;
 
 public class LocalCourse : Course
 {
-    private string? lab;
+    public string Lab { get; set; }
 
-    public string? Lab
+    public LocalCourse(string name) : base(name) 
     {
-        get => this.lab;
-        set
-        {
-            if (value != null && string.IsNullOrWhiteSpace(value))
-            {
-                throw new ArgumentException("Lab name cannot be set to an empty or whitespace string.", nameof(Lab));
-            }
-
-            this.lab = value;
-        }
+        Lab = "N/A";
     }
 
-    public LocalCourse(string name) : base(name) { }
-
-    public LocalCourse(string name, string? teacherName) : base(name, teacherName) { }
-
-    public LocalCourse(string name, string? teacherName, IList<string> students, string? lab = null)
+    public LocalCourse(string name, string teacherName, IList<string> students, string lab)
             : base(name, teacherName, students)
     {
+        if (lab != null && string.IsNullOrWhiteSpace(lab))
+        {
+            throw new ArgumentException("Lab name cannot be set to an empty or whitespace string.", nameof(Lab));
+        }
+
         Lab = lab;
     }
 
     public override string ToString()
     {
-        StringBuilder result = new StringBuilder("LocalCourse {");
+        var result = new StringBuilder("LocalCourse {");
+
         result.Append(GetBaseCourseInfo());
-
-        if (!string.IsNullOrWhiteSpace(Lab))
-        {
-            result.Append($"; Lab = {Lab}");
-        }
-
-        result.Append(" }");
+        result.Append($"; Lab = {Lab} }}");
 
         return result.ToString();
     }

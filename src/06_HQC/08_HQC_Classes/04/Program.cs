@@ -6,7 +6,7 @@ public class Program
     {
         Console.WriteLine("--- Running Valid Course Examples ---");
 
-        LocalCourse localCourse = new LocalCourse("Databases");
+        var localCourse = new LocalCourse("Databases");
         Console.WriteLine(localCourse);
 
         localCourse.Lab = "Enterprise";
@@ -21,7 +21,7 @@ public class Program
         localCourse.Students.Add("Todor");
         Console.WriteLine(localCourse);
 
-        OffsiteCourse offsiteCourse = new OffsiteCourse(
+        var offsiteCourse = new OffsiteCourse(
             "PHP and WordPress Development",
             "Mario Peshev",
             new List<string>() { "Thomas", "Ani", "Steve" },

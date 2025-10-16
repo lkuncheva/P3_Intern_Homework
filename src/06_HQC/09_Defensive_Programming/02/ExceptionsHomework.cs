@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace ExceptionsHomework;
+﻿namespace ExceptionsHomework;
 
 public class ExceptionsHomework
 {
@@ -8,22 +6,22 @@ public class ExceptionsHomework
     {
         if (arr == null)
         {
-            throw new ArgumentNullException("Array cannot be null", nameof(arr));
+            throw new ArgumentNullException(nameof(arr), "Array cannot be null");
         }
 
         if (startIndex < 0 || startIndex > arr.Length)
         {
-            throw new ArgumentOutOfRangeException("Start index out of bounds", nameof(startIndex));
+            throw new ArgumentOutOfRangeException(nameof(startIndex), "Start index out of bounds");
         }
 
         if (count < 0)
         {
-            throw new ArgumentOutOfRangeException("Count cannot be negative.", nameof(count));
+            throw new ArgumentOutOfRangeException(nameof(count), "Count cannot be negative.");
         }
 
         if ((startIndex + count) > arr.Length)
         {
-            throw new ArgumentException("Start index + count cannot be larger than the array length", nameof(count));
+            throw new ArgumentException(nameof(count), "Start index + count cannot be larger than the array length");
         }
 
         List<T> result = new List<T>();
@@ -40,34 +38,27 @@ public class ExceptionsHomework
     {
         if (string.IsNullOrEmpty(str))
         {
-            throw new ArgumentNullException("String cannot be null, empty.", nameof(str));
+            throw new ArgumentNullException(nameof(str), "String cannot be null, empty.");
         }
 
         if (count < 0)
         {
-            throw new ArgumentOutOfRangeException("Count cannot be negative.", nameof(count));
+            throw new ArgumentOutOfRangeException(nameof(count), "Count cannot be negative.");
         }
 
         if (count > str.Length)
         {
-            throw new ArgumentOutOfRangeException("Count cannot be larger than the array length", nameof(count));
+            throw new ArgumentOutOfRangeException(nameof(count), "Count cannot be larger than the array length");
         }
 
-        StringBuilder result = new StringBuilder();
-
-        for (int i = str.Length - count; i < str.Length; i++)
-        {
-            result.Append(str[i]);
-        }
-
-        return result.ToString();
+        return str.Substring(str.Length - count, count);
     }
 
     public static bool IsPrime(int number)
     {
         if (number <= 1)
         {
-            throw new ArgumentOutOfRangeException("Primality check is valid only for numbers greater than 1.", nameof(number));
+            return false;
         }
 
         if (number == 2 || number == 3)

@@ -10,7 +10,7 @@
 
         double maxElement = numbers[0];
         double minElement = numbers[0];
-        double sum = 0;
+        double sum = numbers[0];
         double average;
 
         for (int i = 1; i < numbers.Length; i++)
