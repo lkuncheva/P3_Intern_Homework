@@ -19,28 +19,31 @@ public class Program
             Console.WriteLine("Invalid input. Please enter a positive number between 1 and 100.");
         }
 
-        int[,] matrix = new int[size, size];
+        int[,] data = new int[size, size];
+
+        var matrixField = new MatrixGenerator(data);
+
         int currentValue = 1;
-        int currentRow = 0;
-        int currentCol = 0;
+
+        var currentPosition = new Location(0, 0);
+        Location nextPosition;
 
         while (true)
         {
-            currentValue = MatrixGenerator.Walk(
-                matrix,
-                currentRow,
-                currentCol,
+            currentValue = matrixField.Walk(
+                currentPosition,
                 currentValue,
-                out currentRow,
-                out currentCol);
+                out nextPosition);
 
-            if (!MatrixGenerator.FindNextUnvisitedCell(matrix, out currentRow, out currentCol))
+            currentPosition = nextPosition;
+
+            if (!matrixField.TryFindNextUnvisitedCell(out currentPosition))
             {
                 break;
             }
         }
 
         Console.WriteLine($"\nResulting {size}x{size} Matrix:");
-        MatrixGenerator.PrintMatrix(matrix);
+        matrixField.PrintMatrix();
     }
 }

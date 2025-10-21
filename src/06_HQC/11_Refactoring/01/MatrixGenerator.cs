@@ -1,7 +1,10 @@
 ﻿namespace Matrix;
 
-public static class MatrixGenerator
+public class MatrixGenerator
 {
+    private readonly int[,] matrix;
+    private readonly int size;
+
     private static readonly Direction[] Directions =
     {
         new Direction(1, 1),   // Down-Right
@@ -14,15 +17,32 @@ public static class MatrixGenerator
         new Direction(0, 1)    // Down
     };
 
-    public static int GetNextDirectionIndex(int currentDirectionIndex)
+    public MatrixGenerator(int[,] matrix)
+    {
+        if (matrix == null)
+        {
+            throw new ArgumentNullException(nameof(matrix), "Matrix cannot be null.");
+        }
+
+        int rows = matrix.GetLength(0);
+        int cols = matrix.GetLength(1);
+
+        if (rows != cols)
+        {
+            throw new ArgumentException("Matrix must be square (rows must equal columns).");
+        }
+
+        this.matrix = matrix;
+        this.size = rows;
+    }
+
+    private static int GetNextDirectionIndex(int currentDirectionIndex)
     {
         return (currentDirectionIndex + 1) % Directions.Length;
     }
 
-    public static bool CanContinueWalk(int[,] matrix, int row, int col)
+    private bool CanContinueWalk(int row, int col)
     {
-        int size = matrix.GetLength(0);
-
         foreach (var dir in Directions)
         {
             int nextRow = row + dir.DeltaRow;
@@ -40,18 +60,19 @@ public static class MatrixGenerator
         return false;
     }
 
-    public static int Walk(
-        int[,] matrix,
-        int startRow,
-        int startCol,
-        int startValue,
-        out int currentRow,
-        out int currentCol)
+    private bool isValidMove(int r, int c)
     {
-        int size = matrix.GetLength(0);
+        return r >= 0 && r < size && c >= 0 && c < size && matrix[r, c] == 0;
+    }
+
+    public int Walk(
+        Location startPosition,
+        int startValue,
+        out Location nextPosition)
+    {
         int currentValue = startValue;
-        currentRow = startRow;
-        currentCol = startCol;
+        int currentRow = startPosition.Row;
+        int currentCol = startPosition.Col;
         int currentDirectionIndex = 0;
 
         while (true)
@@ -59,7 +80,7 @@ public static class MatrixGenerator
             matrix[currentRow, currentCol] = currentValue;
             currentValue++;
 
-            if (!CanContinueWalk(matrix, currentRow, currentCol))
+            if (!CanContinueWalk(currentRow, currentCol))
             {
                 break;
             }
@@ -67,11 +88,6 @@ public static class MatrixGenerator
             Direction currentDirection = Directions[currentDirectionIndex];
             int nextRow = currentRow + currentDirection.DeltaRow;
             int nextCol = currentCol + currentDirection.DeltaCol;
-
-            bool isValidMove(int r, int c)
-            {
-                return r >= 0 && r < size && c >= 0 && c < size && matrix[r, c] == 0;
-            }
 
             if (!isValidMove(nextRow, nextCol))
             {
@@ -93,14 +109,13 @@ public static class MatrixGenerator
             currentCol = nextCol;
         }
 
+        nextPosition = new Location(currentRow, currentCol);
         return currentValue;
     }
 
-    public static bool FindNextUnvisitedCell(int[,] matrix, out int row, out int col)
+    public bool TryFindNextUnvisitedCell(out Location position)
     {
-        int size = matrix.GetLength(0);
-        row = 0;
-        col = 0;
+        position = default;
 
         for (int i = 0; i < size; i++)
         {
@@ -108,8 +123,7 @@ public static class MatrixGenerator
             {
                 if (matrix[i, j] == 0)
                 {
-                    row = i;
-                    col = j;
+                    position = new Location(i, j);
                     return true;
                 }
             }
@@ -118,15 +132,15 @@ public static class MatrixGenerator
         return false;
     }
 
-    public static void PrintMatrix(int[,] matrix)
+    public void PrintMatrix()
     {
-        int size = matrix.GetLength(0);
         for (int row = 0; row < size; row++)
         {
             for (int col = 0; col < size; col++)
             {
                 Console.Write("{0,3}", matrix[row, col]);
             }
+
             Console.WriteLine();
         }
     }
