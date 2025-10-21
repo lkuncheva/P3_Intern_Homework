@@ -18,3 +18,11 @@
         Join(): Concatenates the elements of an array into a single string.
         Insert(): Inserts a sub-string in a string at given index.
  */
+
+public class Program
+{
+    public static void Main()
+    {
+        Console.WriteLine("String Methods in C#\n");
+    }
+}
