@@ -3,6 +3,11 @@
 ### Prerequisites
 - .NET 8.0 SDK or later
 - Visual Studio 2022 or Visual Studio Code
+- Database Server: You need access to a database instance.
+	Default: The project is configured to use SQL Server LocalDB ((localdb)\mssqllocaldb).
+	Alternative: Any compatible SQL Server instance will work.
+- EF Core Tools (CLI): Install the global tools for managing migrations:
+	dotnet tool install --global dotnet-ef
 
 ### Steps to Run
 
@@ -69,5 +74,3 @@ The application includes sample data files in the `SampleData/` directory:
 - `character_classes.json` - 5 pre-defined character classes
 - `characters.json` - 8 sample characters with stats and equipment
 - `quests.json` - 10 sample quests with varying difficulty levels
-
-To load sample data, run the application and select option 15.
