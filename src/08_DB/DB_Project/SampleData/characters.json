@@ -1,0 +1,66 @@
+﻿[
+  {
+    "Name": "Thorin Ironshield",
+    "Level": 15,
+    "Experience": 45000,
+    "Gold": 2500,
+    "CharacterClassId": 1,
+    "IsActive": true
+  },
+  {
+    "Name": "Elara Moonwhisper",
+    "Level": 12,
+    "Experience": 28000,
+    "Gold": 1800,
+    "CharacterClassId": 2,
+    "IsActive": true
+  },
+  {
+    "Name": "Shadow Nightblade",
+    "Level": 18,
+    "Experience": 62000,
+    "Gold": 3200,
+    "CharacterClassId": 3,
+    "IsActive": true
+  },
+  {
+    "Name": "Brother Marcus",
+    "Level": 10,
+    "Experience": 18000,
+    "Gold": 1200,
+    "CharacterClassId": 4,
+    "IsActive": true
+  },
+  {
+    "Name": "Aria Swiftarrow",
+    "Level": 14,
+    "Experience": 38000,
+    "Gold": 2100,
+    "CharacterClassId": 5,
+    "IsActive": true
+  },
+  {
+    "Name": "Grimgar the Mighty",
+    "Level": 20,
+    "Experience": 85000,
+    "Gold": 5000,
+    "CharacterClassId": 1,
+    "IsActive": true
+  },
+  {
+    "Name": "Lysandra Starweaver",
+    "Level": 16,
+    "Experience": 52000,
+    "Gold": 2800,
+    "CharacterClassId": 2,
+    "IsActive": true
+  },
+  {
+    "Name": "Vex Shadowstep",
+    "Level": 8,
+    "Experience": 12000,
+    "Gold": 800,
+    "CharacterClassId": 3,
+    "IsActive": false
+  }
+]

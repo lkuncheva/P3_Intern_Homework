@@ -1,0 +1,82 @@
+﻿[
+  {
+    "Title": "The Goblin Menace",
+    "Description": "A band of goblins has been raiding nearby villages. Track them down and eliminate their leader.",
+    "RewardGold": 500,
+    "RewardExperience": 1000,
+    "RequiredLevel": 5,
+    "Difficulty": "Easy"
+  },
+  {
+    "Title": "The Lost Artifact",
+    "Description": "An ancient artifact has been discovered in the ruins of an old temple. Retrieve it before it falls into the wrong hands.",
+    "RewardGold": 1500,
+    "RewardExperience": 3500,
+    "RequiredLevel": 10,
+    "Difficulty": "Medium"
+  },
+  {
+    "Title": "Dragon's Lair",
+    "Description": "A fearsome dragon has taken residence in the mountains, terrorizing the countryside. Only the bravest heroes dare face this challenge.",
+    "RewardGold": 5000,
+    "RewardExperience": 15000,
+    "RequiredLevel": 20,
+    "Difficulty": "Expert"
+  },
+  {
+    "Title": "Rescue Mission",
+    "Description": "The mayor's daughter has been kidnapped by bandits. Rescue her and bring the bandits to justice.",
+    "RewardGold": 800,
+    "RewardExperience": 1800,
+    "RequiredLevel": 7,
+    "Difficulty": "Easy"
+  },
+  {
+    "Title": "The Necromancer's Tower",
+    "Description": "A dark necromancer is raising an army of undead. Infiltrate his tower and stop him before it's too late.",
+    "RewardGold": 3000,
+    "RewardExperience": 8000,
+    "RequiredLevel": 15,
+    "Difficulty": "Hard"
+  },
+  {
+    "Title": "Merchant Escort",
+    "Description": "Escort a wealthy merchant through dangerous territory to the next town.",
+    "RewardGold": 300,
+    "RewardExperience": 600,
+    "RequiredLevel": 3,
+    "Difficulty": "Easy"
+  },
+  {
+    "Title": "The Cursed Forest",
+    "Description": "Strange creatures have appeared in the forest. Investigate the source of the curse and lift it.",
+    "RewardGold": 2000,
+    "RewardExperience": 5000,
+    "RequiredLevel": 12,
+    "Difficulty": "Medium"
+  },
+  {
+    "Title": "Arena Champion",
+    "Description": "Prove your worth by defeating all challengers in the grand arena tournament.",
+    "RewardGold": 4000,
+    "RewardExperience": 10000,
+    "RequiredLevel": 18,
+    "Difficulty": "Hard"
+  },
+  {
+    "Title": "Herb Gathering",
+    "Description": "Collect rare herbs from the wilderness for the local alchemist.",
+    "RewardGold": 150,
+    "RewardExperience": 300,
+    "RequiredLevel": 1,
+    "Difficulty": "Easy"
+  },
+  {
+    "Title": "The Demon Portal",
+    "Description": "A portal to the demon realm has opened. Close it before demons overrun the world.",
+    "RewardGold": 8000,
+    "RewardExperience": 25000,
+    "RequiredLevel": 25,
+    "Difficulty": "Expert"
+  }
+]

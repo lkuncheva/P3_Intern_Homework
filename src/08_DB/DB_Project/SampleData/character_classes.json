@@ -1,0 +1,42 @@
+﻿[
+  {
+    //"Id": 1,
+    "Name": "Warrior",
+    "Description": "Masters of melee combat, warriors excel in close-quarters battle with heavy armor and powerful weapons.",
+    "BaseHealth": 150,
+    "BaseMana": 50,
+    "PrimaryAttribute": "Strength"
+  },
+  {
+    //"Id": 2,
+    "Name": "Mage",
+    "Description": "Wielders of arcane magic, mages command the elements and cast devastating spells from a distance.",
+    "BaseHealth": 80,
+    "BaseMana": 200,
+    "PrimaryAttribute": "Intelligence"
+  },
+  {
+    //"Id": 3,
+    "Name": "Rogue",
+    "Description": "Stealthy assassins who strike from the shadows, rogues rely on speed and precision over brute force.",
+    "BaseHealth": 100,
+    "BaseMana": 80,
+    "PrimaryAttribute": "Dexterity"
+  },
+  {
+    //"Id": 4,
+    "Name": "Cleric",
+    "Description": "Holy warriors who channel divine power to heal allies and smite enemies with righteous fury.",
+    "BaseHealth": 120,
+    "BaseMana": 150,
+    "PrimaryAttribute": "Wisdom"
+  },
+  {
+    //"Id": 5,
+    "Name": "Ranger",
+    "Description": "Expert hunters and trackers, rangers are skilled with bows and have a deep connection to nature.",
+    "BaseHealth": 110,
+    "BaseMana": 100,
+    "PrimaryAttribute": "Dexterity"
+  }
+]

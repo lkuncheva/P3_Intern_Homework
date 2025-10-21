@@ -1,11 +1,36 @@
-﻿namespace DB_Project.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace RPGManager.Models;
+
 public class Character
 {
-    public int CharacterId { get; set; }
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    [MaxLength(100)]
     public string Name { get; set; } = string.Empty;
-    public int Level { get; set; }
-    public CharacterStats Stats { get; set; } = null!;
-    public int ClassId { get; set; }
-    public Class Class { get; set; } = null!;
-    public ICollection<CharacterItem> CharacterItems { get; set; } = new List<CharacterItem>();
+
+    public int Level { get; set; } = 1;
+
+    public int Experience { get; set; } = 0;
+
+    public int Gold { get; set; } = 0;
+
+    public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+
+    public bool IsActive { get; set; } = true;
+
+    [Required]
+    public int CharacterClassId { get; set; }
+
+    [ForeignKey("CharacterClassId")]
+    public virtual CharacterClass CharacterClass { get; set; } = null!;
+
+    public virtual CharacterStats? CharacterStats { get; set; }
+
+    public virtual ICollection<Equipment> Equipment { get; set; } = new List<Equipment>();
+
+    public virtual ICollection<CharacterQuest> CharacterQuests { get; set; } = new List<CharacterQuest>();
 }

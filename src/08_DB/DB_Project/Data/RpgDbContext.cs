@@ -1,42 +1,76 @@
-﻿using DB_Project.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using RPGManager.Models;
 
-namespace DB_Project.Data;
+namespace RPGManager.Data;
+
 public class RpgDbContext : DbContext
 {
-    public DbSet<Character> Characters { get; set; } = null!;
-    public DbSet<CharacterStats> Stats { get; set; } = null!;
-    public DbSet<Class> Classes { get; set; } = null!;
-    public DbSet<Item> Items { get; set; } = null!;
-    public DbSet<CharacterItem> CharacterItems { get; set; } = null!;
-
-    public RpgDbContext(DbContextOptions<RpgDbContext> options) : base(options) { }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public RpgDbContext(DbContextOptions<RpgDbContext> options) : base(options)
     {
-        if (!optionsBuilder.IsConfigured)
-        {
-            string connectionString = "Server=P3U3EUJRQS67NTP;Database=DbProject;Trusted_Connection=True;MultipleActiveResultSets=true";
-
-            optionsBuilder.UseSqlServer(connectionString);
-        }
     }
+
+    public DbSet<Character> Characters { get; set; } = null!;
+    public DbSet<CharacterClass> CharacterClasses { get; set; } = null!;
+    public DbSet<CharacterStats> CharacterStats { get; set; } = null!;
+    public DbSet<Equipment> Equipment { get; set; } = null!;
+    public DbSet<Quest> Quests { get; set; } = null!;
+    public DbSet<CharacterQuest> CharacterQuests { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<CharacterItem>()
-            .HasKey(ci => new { ci.CharacterId, ci.ItemId });
+        base.OnModelCreating(modelBuilder);
+
+        // One-to-Many: CharacterClass -> Character
+        modelBuilder.Entity<Character>()
+            .HasOne(c => c.CharacterClass)
+            .WithMany(cc => cc.Characters)
+            .HasForeignKey(c => c.CharacterClassId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // One-to-One: Character -> CharacterStats
+        modelBuilder.Entity<Character>()
+            .HasOne(c => c.CharacterStats)
+            .WithOne(cs => cs.Character)
+            .HasForeignKey<CharacterStats>(cs => cs.CharacterId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // One-to-Many: Character -> Equipment
+        modelBuilder.Entity<Equipment>()
+            .HasOne(e => e.Character)
+            .WithMany(c => c.Equipment)
+            .HasForeignKey(e => e.CharacterId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Many-to-Many: Character <-> Quest through CharacterQuest
+        modelBuilder.Entity<CharacterQuest>()
+            .HasKey(cq => new { cq.CharacterId, cq.QuestId });
+
+        modelBuilder.Entity<CharacterQuest>()
+            .HasOne(cq => cq.Character)
+            .WithMany(c => c.CharacterQuests)
+            .HasForeignKey(cq => cq.CharacterId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<CharacterQuest>()
+            .HasOne(cq => cq.Quest)
+            .WithMany(q => q.CharacterQuests)
+            .HasForeignKey(cq => cq.QuestId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Character>()
-            .HasOne(c => c.Stats)
-            .WithOne(cs => cs.Character)
-            .HasForeignKey<CharacterStats>(cs => cs.CharacterStatsId);
+            .HasIndex(c => c.Name);
 
-        modelBuilder.Entity<Class>()
-            .HasMany(c => c.Characters)
-            .WithOne(c => c.Class)
-            .HasForeignKey(c => c.ClassId);
+        modelBuilder.Entity<Character>()
+            .HasIndex(c => c.Level);
 
-        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<CharacterClass>()
+            .HasIndex(cc => cc.Name)
+            .IsUnique();
+
+        modelBuilder.Entity<Quest>()
+            .HasIndex(q => q.Title);
+
+        modelBuilder.Entity<Quest>()
+            .HasIndex(q => q.Difficulty);
     }
 }
