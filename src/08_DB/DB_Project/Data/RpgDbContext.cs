@@ -37,17 +37,17 @@ public class RpgDbContext : DbContext
 
         // Many-to-Many: Character <-> Equipment through CharacterEquipment
         modelBuilder.Entity<CharacterEquipment>()
-            .HasKey(ce => new { ce.CharacterId, ce.EquipmentId }); // Defines composite primary key
+            .HasKey(ce => new { ce.CharacterId, ce.EquipmentId });
 
         modelBuilder.Entity<CharacterEquipment>()
             .HasOne(ce => ce.Character)
-            .WithMany(c => c.CharacterEquipment) // Navigation property on Character
+            .WithMany(c => c.CharacterEquipment)
             .HasForeignKey(ce => ce.CharacterId)
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<CharacterEquipment>()
             .HasOne(ce => ce.Equipment)
-            .WithMany(e => e.CharacterEquipment) // Navigation property on Equipment
+            .WithMany(e => e.CharacterEquipment)
             .HasForeignKey(ce => ce.EquipmentId)
             .OnDelete(DeleteBehavior.Cascade);
 
@@ -82,5 +82,11 @@ public class RpgDbContext : DbContext
 
         modelBuilder.Entity<Quest>()
             .HasIndex(q => q.Difficulty);
+
+        modelBuilder.Entity<Equipment>()
+            .HasIndex(e => e.Name);
+
+        modelBuilder.Entity<Equipment>()
+            .HasIndex(e => e.Rarity);
     }
 }

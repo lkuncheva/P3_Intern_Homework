@@ -14,9 +14,9 @@ public class CharacterQuest
     [MaxLength(50)]
     public string Status { get; set; } = "NotStarted";
 
-    public DateTime StartedDate { get; set; }
+    public DateTime? StartedDate { get; set; }
 
-    public DateTime CompletedDate { get; set; }
+    public DateTime? CompletedDate { get; set; }
 
     [ForeignKey("CharacterId")]
     public virtual Character Character { get; set; } = null!;

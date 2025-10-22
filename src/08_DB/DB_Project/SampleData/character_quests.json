@@ -1,0 +1,58 @@
+﻿[
+  {
+    "CharacterId": 1,
+    "QuestId": 1,
+    "Status": "InProgress",
+    "StartedDate": "2024-01-15T10:00:00Z",
+    "CompletedDate": null
+  },
+  {
+    "CharacterId": 1,
+    "QuestId": 2,
+    "Status": "Completed",
+    "StartedDate": "2024-01-10T09:00:00Z",
+    "CompletedDate": "2024-01-12T15:30:00Z"
+  },
+  {
+    "CharacterId": 2,
+    "QuestId": 1,
+    "Status": "NotStarted",
+    "StartedDate": null,
+    "CompletedDate": null
+  },
+  {
+    "CharacterId": 2,
+    "QuestId": 3,
+    "Status": "InProgress",
+    "StartedDate": "2024-01-14T14:00:00Z",
+    "CompletedDate": null
+  },
+  {
+    "CharacterId": 3,
+    "QuestId": 2,
+    "Status": "Completed",
+    "StartedDate": "2024-01-08T11:00:00Z",
+    "CompletedDate": "2024-01-09T16:45:00Z"
+  },
+  {
+    "CharacterId": 4,
+    "QuestId": 3,
+    "Status": "InProgress",
+    "StartedDate": "2024-01-13T08:30:00Z",
+    "CompletedDate": null
+  },
+  {
+    "CharacterId": 5,
+    "QuestId": 1,
+    "Status": "NotStarted",
+    "StartedDate": null,
+    "CompletedDate": null
+  },
+  {
+    "CharacterId": 5,
+    "QuestId": 4,
+    "Status": "Completed",
+    "StartedDate": "2024-01-11T13:00:00Z",
+    "CompletedDate": "2024-01-13T10:20:00Z"
+  }
+]

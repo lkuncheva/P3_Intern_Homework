@@ -107,10 +107,18 @@ class Program
         Console.WriteLine("4. View Character Details");
         Console.WriteLine("5. Update Character Name");
         Console.WriteLine("6. Update Character Level");
-        Console.WriteLine("7. Delete Character");
-        Console.WriteLine("8. Export Characters to JSON");
-        Console.WriteLine("9. Back to Main Menu");
-        Console.Write("\nSelect an option: ");
+        Console.WriteLine("7. View Character Stats");
+        Console.WriteLine("8. Create/Update Character Stats");
+        Console.WriteLine("9. Delete Character Stats");
+        Console.WriteLine("10. Delete Character");
+        Console.WriteLine("11. Export Characters to JSON");
+        Console.WriteLine("12. View Character Quests");
+        Console.WriteLine("13. Assign Quest to Character");
+        Console.WriteLine("14. Update Quest Status");
+        Console.WriteLine("15. View Character Equipment");
+        Console.WriteLine("16. Assign Equipment to Character");
+        Console.WriteLine("17. Toggle Equipment Status");
+        Console.WriteLine("0. Back to Main Menu");
 
         var choice = Console.ReadLine();
 
@@ -137,12 +145,39 @@ class Program
                     await UpdateCharacterLevelAsync(characterService);
                     break;
                 case "7":
-                    await DeleteCharacterAsync(characterService);
+                    await ViewCharacterStatsAsync(characterService);
                     break;
                 case "8":
-                    await ExportCharactersAsync(characterService);
+                    await CreateOrUpdateCharacterStatsAsync(characterService);
                     break;
                 case "9":
+                    await DeleteCharacterStatsAsync(characterService);
+                    break;
+                case "10":
+                    await DeleteCharacterAsync(characterService);
+                    break;
+                case "11":
+                    await ExportCharactersAsync(characterService);
+                    break;
+                case "12":
+                    await ViewCharacterQuestsAsync(characterService);
+                    break;
+                case "13":
+                    await AssignQuestToCharacterAsync(characterService);
+                    break;
+                case "14":
+                    await UpdateCharacterQuestStatusAsync(characterService);
+                    break;
+                case "15":
+                    await ViewCharacterEquipmentAsync(characterService);
+                    break;
+                case "16":
+                    await AssignEquipmentToCharacterAsync(characterService);
+                    break;
+                case "17":
+                    await ToggleCharacterEquipmentStatusAsync(characterService);
+                    break;
+                case "0":
                     return;
                 default:
                     Console.WriteLine("\nInvalid option.");
@@ -369,7 +404,7 @@ class Program
         Console.WriteLine("5. Delete Equipment Item");
         Console.WriteLine("6. Export Equipment to JSON");
         Console.WriteLine("7. Assign Equipment to Character");
-        Console.WriteLine("8. Toggle Character Equipment Status (Equip/Unequip)"); // M:N Update
+        Console.WriteLine("8. Toggle Character Equipment Status (Equip/Unequip)");
         Console.WriteLine("9. Back to Main Menu");
         Console.Write("\nSelect an option: ");
 
@@ -837,5 +872,327 @@ class Program
 
         var success = await questService.UpdateQuestStatusAsync(charId, questId, status);
         Console.WriteLine(success ? "\nQuest status updated successfully!" : "\nFailed to update quest status.");
+    }
+
+    // CharacterStats Management Methods
+    private static async Task ViewCharacterStatsAsync(ICharacterService characterService)
+    {
+        Console.Write("\nEnter character ID: ");
+        if (!int.TryParse(Console.ReadLine(), out int characterId))
+        {
+            Console.WriteLine("Invalid character ID.");
+            return;
+        }
+
+        try
+        {
+            var stats = await characterService.GetCharacterStatsAsync(characterId);
+            if (stats == null)
+            {
+                Console.WriteLine("No stats found for this character.");
+                return;
+            }
+
+            Console.WriteLine($"\n=== Character Stats ===");
+            Console.WriteLine($"Character ID: {stats.CharacterId}");
+            Console.WriteLine($"Strength: {stats.Strength}");
+            Console.WriteLine($"Dexterity: {stats.Dexterity}");
+            Console.WriteLine($"Intelligence: {stats.Intelligence}");
+            Console.WriteLine($"Constitution: {stats.Constitution}");
+            Console.WriteLine($"Wisdom: {stats.Wisdom}");
+            Console.WriteLine($"Charisma: {stats.Charisma}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+    }
+
+    private static async Task CreateOrUpdateCharacterStatsAsync(ICharacterService characterService)
+    {
+        Console.Write("\nEnter character ID: ");
+        if (!int.TryParse(Console.ReadLine(), out int characterId))
+        {
+            Console.WriteLine("Invalid character ID.");
+            return;
+        }
+
+        try
+        {
+            var existingStats = await characterService.GetCharacterStatsAsync(characterId);
+            bool isUpdate = existingStats != null;
+
+            Console.WriteLine($"\n{(isUpdate ? "Update" : "Create")} Character Stats");
+
+            Console.Write("Enter Strength (default 10): ");
+            var strengthInput = Console.ReadLine();
+            int strength = string.IsNullOrWhiteSpace(strengthInput) ? 10 : int.Parse(strengthInput);
+
+            Console.Write("Enter Dexterity (default 10): ");
+            var dexterityInput = Console.ReadLine();
+            int dexterity = string.IsNullOrWhiteSpace(dexterityInput) ? 10 : int.Parse(dexterityInput);
+
+            Console.Write("Enter Intelligence (default 10): ");
+            var intelligenceInput = Console.ReadLine();
+            int intelligence = string.IsNullOrWhiteSpace(intelligenceInput) ? 10 : int.Parse(intelligenceInput);
+
+            Console.Write("Enter Constitution (default 10): ");
+            var constitutionInput = Console.ReadLine();
+            int constitution = string.IsNullOrWhiteSpace(constitutionInput) ? 10 : int.Parse(constitutionInput);
+
+            Console.Write("Enter Wisdom (default 10): ");
+            var wisdomInput = Console.ReadLine();
+            int wisdom = string.IsNullOrWhiteSpace(wisdomInput) ? 10 : int.Parse(wisdomInput);
+
+            Console.Write("Enter Charisma (default 10): ");
+            var charismaInput = Console.ReadLine();
+            int charisma = string.IsNullOrWhiteSpace(charismaInput) ? 10 : int.Parse(charismaInput);
+
+            var stats = new CharacterStats
+            {
+                CharacterId = characterId,
+                Strength = strength,
+                Dexterity = dexterity,
+                Intelligence = intelligence,
+                Constitution = constitution,
+                Wisdom = wisdom,
+                Charisma = charisma
+            };
+
+            if (isUpdate)
+            {
+                var success = await characterService.UpdateCharacterStatsAsync(characterId, stats);
+                Console.WriteLine(success ? "\nCharacter stats updated successfully!" : "\nFailed to update character stats.");
+            }
+            else
+            {
+                var createdStats = await characterService.CreateCharacterStatsAsync(characterId, stats);
+                Console.WriteLine($"\nCharacter stats created successfully! ID: {createdStats.Id}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+    }
+
+    private static async Task DeleteCharacterStatsAsync(ICharacterService characterService)
+    {
+        Console.Write("\nEnter character ID: ");
+        if (!int.TryParse(Console.ReadLine(), out int characterId))
+        {
+            Console.WriteLine("Invalid character ID.");
+            return;
+        }
+
+        Console.Write("Are you sure you want to delete this character's stats? (yes/no): ");
+        var confirmation = Console.ReadLine();
+
+        if (confirmation?.ToLower() == "yes")
+        {
+            try
+            {
+                var success = await characterService.DeleteCharacterStatsAsync(characterId);
+                Console.WriteLine(success ? "\nCharacter stats deleted successfully!" : "\nCharacter stats not found.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("\nDeletion cancelled.");
+        }
+    }
+
+    // CharacterQuest Management Methods
+    private static async Task ViewCharacterQuestsAsync(ICharacterService characterService)
+    {
+        Console.Write("\nEnter character ID: ");
+        if (!int.TryParse(Console.ReadLine(), out int characterId))
+        {
+            Console.WriteLine("Invalid character ID.");
+            return;
+        }
+
+        try
+        {
+            var quests = await characterService.GetCharacterQuestsAsync(characterId);
+            if (!quests.Any())
+            {
+                Console.WriteLine("No quests found for this character.");
+                return;
+            }
+
+            Console.WriteLine($"\n=== Character Quests ===");
+            Console.WriteLine($"Character ID: {characterId}");
+            foreach (var quest in quests)
+            {
+                Console.WriteLine($"- Quest ID: {quest.QuestId}, Status: {quest.Status}, Started: {quest.StartedDate:yyyy-MM-dd HH:mm}, Completed: {(quest.CompletedDate.HasValue ? quest.CompletedDate.Value.ToString("yyyy-MM-dd HH:mm") : "Not completed")}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+    }
+
+    private static async Task AssignQuestToCharacterAsync(ICharacterService characterService)
+    {
+        Console.Write("\nEnter character ID: ");
+        if (!int.TryParse(Console.ReadLine(), out int characterId))
+        {
+            Console.WriteLine("Invalid character ID.");
+            return;
+        }
+
+        Console.Write("Enter quest ID: ");
+        if (!int.TryParse(Console.ReadLine(), out int questId))
+        {
+            Console.WriteLine("Invalid quest ID.");
+            return;
+        }
+
+        try
+        {
+            var assignment = await characterService.AssignQuestToCharacterAsync(characterId, questId);
+            Console.WriteLine($"\nQuest assigned successfully! Assignment ID: {assignment.CharacterId}-{assignment.QuestId}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+    }
+
+    private static async Task UpdateCharacterQuestStatusAsync(ICharacterService characterService)
+    {
+        Console.Write("\nEnter character ID: ");
+        if (!int.TryParse(Console.ReadLine(), out int characterId))
+        {
+            Console.WriteLine("Invalid character ID.");
+            return;
+        }
+
+        Console.Write("Enter quest ID: ");
+        if (!int.TryParse(Console.ReadLine(), out int questId))
+        {
+            Console.WriteLine("Invalid quest ID.");
+            return;
+        }
+
+        Console.WriteLine("Available statuses: NotStarted, InProgress, Completed, Failed");
+        Console.Write("Enter new status: ");
+        var status = Console.ReadLine();
+
+        if (string.IsNullOrWhiteSpace(status))
+        {
+            Console.WriteLine("Invalid status.");
+            return;
+        }
+
+        try
+        {
+            var success = await characterService.UpdateQuestStatusAsync(characterId, questId, status);
+            Console.WriteLine(success ? "\nQuest status updated successfully!" : "\nFailed to update quest status. Check character and quest IDs.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+    }
+
+    // CharacterEquipment Management Methods
+    private static async Task ViewCharacterEquipmentAsync(ICharacterService characterService)
+    {
+        Console.Write("\nEnter character ID: ");
+        if (!int.TryParse(Console.ReadLine(), out int characterId))
+        {
+            Console.WriteLine("Invalid character ID.");
+            return;
+        }
+
+        try
+        {
+            var equipment = await characterService.GetCharacterEquipmentAsync(characterId);
+            if (!equipment.Any())
+            {
+                Console.WriteLine("No equipment found for this character.");
+                return;
+            }
+
+            Console.WriteLine($"\n=== Character Equipment ===");
+            Console.WriteLine($"Character ID: {characterId}");
+            foreach (var eq in equipment)
+            {
+                var status = eq.IsEquipped ? "[EQUIPPED]" : "[IN BAG]";
+                Console.WriteLine($"- Equipment ID: {eq.EquipmentId} {status}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+    }
+
+    private static async Task AssignEquipmentToCharacterAsync(ICharacterService characterService)
+    {
+        Console.Write("\nEnter character ID: ");
+        if (!int.TryParse(Console.ReadLine(), out int characterId))
+        {
+            Console.WriteLine("Invalid character ID.");
+            return;
+        }
+
+        Console.Write("Enter equipment ID: ");
+        if (!int.TryParse(Console.ReadLine(), out int equipmentId))
+        {
+            Console.WriteLine("Invalid equipment ID.");
+            return;
+        }
+
+        try
+        {
+            var assignment = await characterService.AssignEquipmentToCharacterAsync(characterId, equipmentId);
+            Console.WriteLine($"\nEquipment assigned successfully! Assignment ID: {assignment.CharacterId}-{assignment.EquipmentId}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+    }
+
+    private static async Task ToggleCharacterEquipmentStatusAsync(ICharacterService characterService)
+    {
+        Console.Write("\nEnter character ID: ");
+        if (!int.TryParse(Console.ReadLine(), out int characterId))
+        {
+            Console.WriteLine("Invalid character ID.");
+            return;
+        }
+
+        Console.Write("Enter equipment ID: ");
+        if (!int.TryParse(Console.ReadLine(), out int equipmentId))
+        {
+            Console.WriteLine("Invalid equipment ID.");
+            return;
+        }
+
+        try
+        {
+            var success = await characterService.ToggleEquipmentStatusAsync(characterId, equipmentId);
+            if (success)
+            {
+                Console.WriteLine("\nEquipment status toggled successfully!");
+            }
+            else
+            {
+                Console.WriteLine("\nFailed to toggle equipment status. Check character and equipment IDs.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
     }
 }

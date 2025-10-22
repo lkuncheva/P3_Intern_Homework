@@ -1,0 +1,52 @@
+﻿[
+  {
+    "CharacterId": 1,
+    "EquipmentId": 1,
+    "IsEquipped": true
+  },
+  {
+    "CharacterId": 1,
+    "EquipmentId": 2,
+    "IsEquipped": true
+  },
+  {
+    "CharacterId": 1,
+    "EquipmentId": 3,
+    "IsEquipped": false
+  },
+  {
+    "CharacterId": 2,
+    "EquipmentId": 4,
+    "IsEquipped": true
+  },
+  {
+    "CharacterId": 2,
+    "EquipmentId": 5,
+    "IsEquipped": false
+  },
+  {
+    "CharacterId": 3,
+    "EquipmentId": 6,
+    "IsEquipped": true
+  },
+  {
+    "CharacterId": 3,
+    "EquipmentId": 7,
+    "IsEquipped": true
+  },
+  {
+    "CharacterId": 4,
+    "EquipmentId": 8,
+    "IsEquipped": true
+  },
+  {
+    "CharacterId": 5,
+    "EquipmentId": 9,
+    "IsEquipped": false
+  },
+  {
+    "CharacterId": 5,
+    "EquipmentId": 10,
+    "IsEquipped": true
+  }
+]
