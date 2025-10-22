@@ -28,9 +28,9 @@ public class Character
     [ForeignKey("CharacterClassId")]
     public virtual CharacterClass CharacterClass { get; set; } = null!;
 
-    public virtual CharacterStats? CharacterStats { get; set; }
+    public virtual CharacterStats CharacterStats { get; set; }
 
-    public virtual ICollection<Equipment> Equipment { get; set; } = new List<Equipment>();
+    public virtual ICollection<CharacterEquipment> CharacterEquipment { get; set; } = new List<CharacterEquipment>();
 
     public virtual ICollection<CharacterQuest> CharacterQuests { get; set; } = new List<CharacterQuest>();
 }

@@ -16,7 +16,7 @@ public class CharacterRepository : Repository<Character>, ICharacterRepository
         return await _dbSet
             .Include(c => c.CharacterClass)
             .Include(c => c.CharacterStats)
-            .Include(c => c.Equipment)
+            .Include(c => c.CharacterEquipment)
             .Include(c => c.CharacterQuests)
                 .ThenInclude(cq => cq.Quest)
             .FirstOrDefaultAsync(c => c.Id == id);

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RPGManager.Models;
 
@@ -22,9 +21,5 @@ public class Equipment
 
     public int DefenseBonus { get; set; } = 0;
 
-    [Required]
-    public int CharacterId { get; set; }
-
-    [ForeignKey("CharacterId")]
-    public virtual Character Character { get; set; } = null!;
+    public virtual ICollection<CharacterEquipment> CharacterEquipment { get; set; } = new List<CharacterEquipment>();
 }

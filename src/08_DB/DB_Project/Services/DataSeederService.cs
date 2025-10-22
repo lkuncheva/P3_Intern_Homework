@@ -9,15 +9,18 @@ public class DataSeederService : IDataSeederService
     private readonly IRepository<CharacterClass> _characterClassRepository;
     private readonly ICharacterService _characterService;
     private readonly IQuestService _questService;
+    private readonly IEquipmentService _equipmentService;
 
     public DataSeederService(
         IRepository<CharacterClass> characterClassRepository,
         ICharacterService characterService,
-        IQuestService questService)
+        IQuestService questService,
+        IEquipmentService equipmentService)
     {
         _characterClassRepository = characterClassRepository ?? throw new ArgumentNullException(nameof(characterClassRepository));
         _characterService = characterService ?? throw new ArgumentNullException(nameof(characterService));
         _questService = questService ?? throw new ArgumentNullException(nameof(questService));
+        _equipmentService = equipmentService ?? throw new ArgumentNullException(nameof(equipmentService));
     }
 
     private string ResolveSampleFilePath(string fileName)
@@ -99,6 +102,26 @@ public class DataSeederService : IDataSeederService
             else
             {
                 Console.WriteLine($"Quests file not found: {questFilePath}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error seeding quests: {ex.Message}");
+            if (ex.InnerException != null) Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+            Console.WriteLine($"Base exception: {ex.GetBaseException().Message}");
+            Console.WriteLine(ex);
+        }
+
+        try
+        {
+            var equipmentFilePath = ResolveSampleFilePath("equipment.json");
+            if (File.Exists(equipmentFilePath))
+            {
+                await _equipmentService.BulkInsertEquipmentFromJsonAsync(equipmentFilePath);
+            }
+            else
+            {
+                Console.WriteLine($"Equipment file not found: {equipmentFilePath}");
             }
         }
         catch (Exception ex)

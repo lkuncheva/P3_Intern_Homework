@@ -15,7 +15,7 @@ public class DependencyConfig
 
         builder.Register(c =>
         {
-            string connectionString = "Server=(localdb)\\msqllocaldb;Database=DbProjectRpg;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;";
+            string connectionString = "Server=P3U3EUJRQS67NTP;Database=DbProjectRpg;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;";
             var optionsBuilder = new DbContextOptionsBuilder<RpgDbContext>();
             optionsBuilder.UseSqlServer(connectionString);
             return new RpgDbContext(optionsBuilder.Options);
@@ -35,6 +35,10 @@ public class DependencyConfig
 
         builder.RegisterType<QuestService>()
             .As<IQuestService>()
+            .InstancePerLifetimeScope();
+
+        builder.RegisterType<EquipmentService>()
+            .As<IEquipmentService>()
             .InstancePerLifetimeScope();
 
         builder.RegisterType<DataSeederService>()

@@ -1,0 +1,72 @@
+﻿[
+  {
+    "Name": "Worn Leather Vest",
+    "Type": "Armor",
+    "Rarity": "Common",
+    "AttackBonus": 0,
+    "DefenseBonus": 2
+  },
+  {
+    "Name": "Iron Shortsword",
+    "Type": "Weapon",
+    "Rarity": "Common",
+    "AttackBonus": 3,
+    "DefenseBonus": 0
+  },
+  {
+    "Name": "Amulet of Vitality",
+    "Type": "Accessory",
+    "Rarity": "Rare",
+    "AttackBonus": 0,
+    "DefenseBonus": 5
+  },
+  {
+    "Name": "Ebon Plate Greaves",
+    "Type": "Armor",
+    "Rarity": "Epic",
+    "AttackBonus": 1,
+    "DefenseBonus": 15
+  },
+  {
+    "Name": "Staff of the Magi",
+    "Type": "Weapon",
+    "Rarity": "Legendary",
+    "AttackBonus": 20,
+    "DefenseBonus": 0
+  },
+  {
+    "Name": "Hearthstone Ring",
+    "Type": "Accessory",
+    "Rarity": "Uncommon",
+    "AttackBonus": 2,
+    "DefenseBonus": 2
+  },
+  {
+    "Name": "Dwarven Battle Axe",
+    "Type": "Weapon",
+    "Rarity": "Rare",
+    "AttackBonus": 10,
+    "DefenseBonus": 1
+  },
+  {
+    "Name": "Studded Hide Boots",
+    "Type": "Armor",
+    "Rarity": "Uncommon",
+    "AttackBonus": 0,
+    "DefenseBonus": 4
+  },
+  {
+    "Name": "Sentinel's Shield",
+    "Type": "Weapon",
+    "Rarity": "Epic",
+    "AttackBonus": 3,
+    "DefenseBonus": 12
+  },
+  {
+    "Name": "Gloves of Dexterity",
+    "Type": "Accessory",
+    "Rarity": "Common",
+    "AttackBonus": 1,
+    "DefenseBonus": 1
+  }
+]

@@ -13,6 +13,7 @@ public class RpgDbContext : DbContext
     public DbSet<CharacterClass> CharacterClasses { get; set; } = null!;
     public DbSet<CharacterStats> CharacterStats { get; set; } = null!;
     public DbSet<Equipment> Equipment { get; set; } = null!;
+    public DbSet<CharacterEquipment> CharacterEquipment { get; set; } = null!;
     public DbSet<Quest> Quests { get; set; } = null!;
     public DbSet<CharacterQuest> CharacterQuests { get; set; } = null!;
 
@@ -34,11 +35,20 @@ public class RpgDbContext : DbContext
             .HasForeignKey<CharacterStats>(cs => cs.CharacterId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        // One-to-Many: Character -> Equipment
-        modelBuilder.Entity<Equipment>()
-            .HasOne(e => e.Character)
-            .WithMany(c => c.Equipment)
-            .HasForeignKey(e => e.CharacterId)
+        // Many-to-Many: Character <-> Equipment through CharacterEquipment
+        modelBuilder.Entity<CharacterEquipment>()
+            .HasKey(ce => new { ce.CharacterId, ce.EquipmentId }); // Defines composite primary key
+
+        modelBuilder.Entity<CharacterEquipment>()
+            .HasOne(ce => ce.Character)
+            .WithMany(c => c.CharacterEquipment) // Navigation property on Character
+            .HasForeignKey(ce => ce.CharacterId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<CharacterEquipment>()
+            .HasOne(ce => ce.Equipment)
+            .WithMany(e => e.CharacterEquipment) // Navigation property on Equipment
+            .HasForeignKey(ce => ce.EquipmentId)
             .OnDelete(DeleteBehavior.Cascade);
 
         // Many-to-Many: Character <-> Quest through CharacterQuest

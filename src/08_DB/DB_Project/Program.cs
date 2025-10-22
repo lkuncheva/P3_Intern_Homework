@@ -44,8 +44,9 @@ class Program
             Console.WriteLine("\n=== Main Menu ===");
             Console.WriteLine("1. Character Management");
             Console.WriteLine("2. Quest Management");
-            Console.WriteLine("3. Seed Sample Data");
-            Console.WriteLine("4. Exit");
+            Console.WriteLine("3. Equipment Management");
+            Console.WriteLine("4. Seed Sample Data");
+            Console.WriteLine("5. Exit");
             Console.Write("\nSelect an option: ");
 
             var choice = Console.ReadLine();
@@ -59,9 +60,12 @@ class Program
                     await QuestManagementMenuAsync();
                     break;
                 case "3":
-                    await SeedSampleDataAsync();
+                    await EquipmentManagementMenuAsync();
                     break;
                 case "4":
+                    await SeedSampleDataAsync();
+                    break;
+                case "5":
                     exit = true;
                     Console.WriteLine("\nThank you for using Fantasy RPG Character Manager!");
                     break;
@@ -86,6 +90,10 @@ class Program
             Console.WriteLine($"\nError seeding data: {ex.Message}");
         }
     }
+
+    // ===============================================
+    // CHARACTER MANAGEMENT
+    // ===============================================
 
     private static async Task CharacterManagementMenuAsync()
     {
@@ -237,12 +245,13 @@ class Program
             Console.WriteLine($"  Charisma: {character.CharacterStats.Charisma}");
         }
 
-        if (character.Equipment.Any())
+        if (character.CharacterEquipment.Any())
         {
-            Console.WriteLine($"\nEquipment ({character.Equipment.Count} items):");
-            foreach (var item in character.Equipment)
+            Console.WriteLine($"\nEquipment ({character.CharacterEquipment.Count} items):");
+            foreach (var ce in character.CharacterEquipment)
             {
-                Console.WriteLine($"  - {item.Name} ({item.Type}, {item.Rarity})");
+                var equippedStatus = ce.IsEquipped ? "[EQUIPPED]" : "[IN BAG]";
+                Console.WriteLine($"  - {equippedStatus} {ce.Equipment?.Name ?? "Unknown"} ({ce.Equipment?.Type ?? ""}, {ce.Equipment?.Rarity ?? ""})");
             }
         }
 
@@ -342,6 +351,246 @@ class Program
 
         await characterService.ExportCharactersToJsonAsync(filePath, minLevel, maxLevel);
     }
+
+    // ===============================================
+    // EQUIPMENT MANAGEMENT
+    // ===============================================
+
+    private static async Task EquipmentManagementMenuAsync()
+    {
+        using var scope = _container!.BeginLifetimeScope();
+        var equipmentService = scope.Resolve<IEquipmentService>();
+
+        Console.WriteLine("\n=== Equipment Management ===");
+        Console.WriteLine("1. Create Equipment Item");
+        Console.WriteLine("2. Bulk Insert Equipment from JSON");
+        Console.WriteLine("3. View All Equipment");
+        Console.WriteLine("4. Update Equipment Bonuses");
+        Console.WriteLine("5. Delete Equipment Item");
+        Console.WriteLine("6. Export Equipment to JSON");
+        Console.WriteLine("7. Assign Equipment to Character");
+        Console.WriteLine("8. Toggle Character Equipment Status (Equip/Unequip)"); // M:N Update
+        Console.WriteLine("9. Back to Main Menu");
+        Console.Write("\nSelect an option: ");
+
+        var choice = Console.ReadLine();
+
+        try
+        {
+            switch (choice)
+            {
+                case "1":
+                    await CreateEquipmentAsync(equipmentService);
+                    break;
+                case "2":
+                    await BulkInsertEquipmentFromJsonAsync(equipmentService);
+                    break;
+                case "3":
+                    await ViewAllEquipmentAsync(equipmentService);
+                    break;
+                case "4":
+                    await UpdateEquipmentBonusAsync(equipmentService);
+                    break;
+                case "5":
+                    await DeleteEquipmentAsync(equipmentService);
+                    break;
+                case "6":
+                    await ExportEquipmentToJsonAsync(equipmentService);
+                    break;
+                case "7":
+                    await AssignEquipmentToCharacterAsync(equipmentService);
+                    break;
+                case "8":
+                    await ToggleEquipmentStatusAsync(equipmentService);
+                    break;
+                case "9":
+                    return;
+                default:
+                    Console.WriteLine("\nInvalid option.");
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"\nError: {ex.Message}");
+        }
+    }
+
+    private static async Task CreateEquipmentAsync(IEquipmentService equipmentService)
+    {
+        Console.Write("\nEnter equipment name: ");
+        var name = Console.ReadLine();
+
+        Console.Write("Enter equipment type (e.g., Weapon, Armor): ");
+        var type = Console.ReadLine();
+
+        Console.Write("Enter attack bonus (default 0): ");
+        if (!int.TryParse(Console.ReadLine(), out int attack)) attack = 0;
+
+        Console.Write("Enter defense bonus (default 0): ");
+        if (!int.TryParse(Console.ReadLine(), out int defense)) defense = 0;
+
+        Console.Write("Enter rarity (e.g., Common, Rare, Legendary): ");
+        var rarity = Console.ReadLine();
+
+        var equipment = new Equipment
+        {
+            Name = name ?? "Unknown Item",
+            Type = type ?? "Misc",
+            AttackBonus = attack,
+            DefenseBonus = defense,
+            Rarity = rarity ?? "Common"
+        };
+
+        var created = await equipmentService.CreateEquipmentAsync(equipment);
+        Console.WriteLine($"\nEquipment item created successfully! ID: {created.Id}");
+    }
+
+    private static async Task BulkInsertEquipmentFromJsonAsync(IEquipmentService equipmentService)
+    {
+        Console.Write("\nEnter JSON file path for equipment: ");
+        var filePath = Console.ReadLine();
+
+        if (string.IsNullOrWhiteSpace(filePath))
+        {
+            Console.WriteLine("Invalid file path.");
+            return;
+        }
+
+        await equipmentService.BulkInsertEquipmentFromJsonAsync(filePath);
+    }
+
+    private static async Task ViewAllEquipmentAsync(IEquipmentService equipmentService)
+    {
+        var equipment = await equipmentService.GetAllEquipmentAsync();
+
+        Console.WriteLine("\n=== All Equipment ===");
+        foreach (var item in equipment)
+        {
+            Console.WriteLine($"ID: {item.Id}, Name: {item.Name}, Type: {item.Type}, Rarity: {item.Rarity}, Attack: +{item.AttackBonus}, Defense: +{item.DefenseBonus}");
+        }
+    }
+
+    private static async Task UpdateEquipmentBonusAsync(IEquipmentService equipmentService)
+    {
+        Console.Write("\nEnter equipment ID: ");
+        if (!int.TryParse(Console.ReadLine(), out int id))
+        {
+            Console.WriteLine("Invalid ID.");
+            return;
+        }
+
+        Console.Write("Enter new attack bonus: ");
+        if (!int.TryParse(Console.ReadLine(), out int attack))
+        {
+            Console.WriteLine("Invalid attack bonus.");
+            return;
+        }
+
+        Console.Write("Enter new defense bonus: ");
+        if (!int.TryParse(Console.ReadLine(), out int defense))
+        {
+            Console.WriteLine("Invalid defense bonus.");
+            return;
+        }
+
+        var success = await equipmentService.UpdateEquipmentBonusesAsync(id, attack, defense);
+        Console.WriteLine(success ? "\nEquipment bonuses updated successfully!" : "\nEquipment not found.");
+    }
+
+    private static async Task DeleteEquipmentAsync(IEquipmentService equipmentService)
+    {
+        Console.Write("\nEnter equipment ID to delete: ");
+        if (!int.TryParse(Console.ReadLine(), out int id))
+        {
+            Console.WriteLine("Invalid ID.");
+            return;
+        }
+
+        Console.Write("Are you sure? (yes/no): ");
+        var confirmation = Console.ReadLine();
+
+        if (confirmation?.ToLower() == "yes")
+        {
+            var success = await equipmentService.DeleteEquipmentAsync(id);
+            Console.WriteLine(success ? "\nEquipment deleted successfully!" : "\nEquipment not found.");
+        }
+        else
+        {
+            Console.WriteLine("\nDeletion cancelled.");
+        }
+    }
+
+    private static async Task ExportEquipmentToJsonAsync(IEquipmentService equipmentService)
+    {
+        Console.Write("\nEnter output file path: ");
+        var filePath = Console.ReadLine();
+
+        if (string.IsNullOrWhiteSpace(filePath))
+        {
+            Console.WriteLine("Invalid file path.");
+            return;
+        }
+
+        Console.Write("Filter by rarity (leave empty for all): ");
+        var rarity = Console.ReadLine();
+
+        await equipmentService.ExportEquipmentToJsonAsync(filePath, string.IsNullOrWhiteSpace(rarity) ? null : rarity);
+    }
+
+    private static async Task AssignEquipmentToCharacterAsync(IEquipmentService equipmentService)
+    {
+        Console.Write("\nEnter character ID to assign to: ");
+        if (!int.TryParse(Console.ReadLine(), out int charId))
+        {
+            Console.WriteLine("Invalid character ID.");
+            return;
+        }
+
+        Console.Write("Enter equipment ID to assign: ");
+        if (!int.TryParse(Console.ReadLine(), out int equipId))
+        {
+            Console.WriteLine("Invalid equipment ID.");
+            return;
+        }
+
+        var success = await equipmentService.AssignEquipmentToCharacterAsync(charId, equipId);
+        Console.WriteLine(success ? "\nEquipment assigned successfully!" : "\nFailed to assign equipment. Check IDs.");
+    }
+
+    private static async Task ToggleEquipmentStatusAsync(IEquipmentService equipmentService)
+    {
+        Console.Write("\nEnter character ID: ");
+        if (!int.TryParse(Console.ReadLine(), out int charId))
+        {
+            Console.WriteLine("Invalid character ID.");
+            return;
+        }
+
+        Console.Write("Enter equipment ID: ");
+        if (!int.TryParse(Console.ReadLine(), out int equipId))
+        {
+            Console.WriteLine("Invalid equipment ID.");
+            return;
+        }
+
+        bool? newStatus = await equipmentService.ToggleEquipmentStatusAsync(charId, equipId);
+
+        if (newStatus.HasValue)
+        {
+            Console.WriteLine(newStatus.Value
+                ? "\nEquipment equipped successfully!"
+                : "\nEquipment unequipped successfully!");
+        }
+        else
+        {
+            Console.WriteLine("\nFailed to find character/equipment link.");
+        }
+    }
+
+    // ===============================================
+    // QUEST MANAGEMENT
+    // ===============================================
 
     private static async Task QuestManagementMenuAsync()
     {
