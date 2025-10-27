@@ -1,9 +1,10 @@
 ﻿using Autofac;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using RPGManager.Data;
 using RPGManager.Interfaces;
 using RPGManager.Repositories;
 using RPGManager.Services;
-using Microsoft.EntityFrameworkCore;
 
 namespace RPGManager.Configuration;
 
@@ -13,9 +14,18 @@ public class DependencyConfig
     {
         var builder = new ContainerBuilder();
 
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(Path.Combine(AppContext.BaseDirectory, "..", "..", ".."))
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .Build();
+
+        builder.RegisterInstance(configuration).As<IConfiguration>().SingleInstance();
+
         builder.Register(c =>
         {
-            string connectionString = "Server=P3U3EUJRQS67NTP;Database=DbProjectRpg;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;";
+            var config = c.Resolve<IConfiguration>();
+            string connectionString = config.GetConnectionString("RpgDbContext");
+
             var optionsBuilder = new DbContextOptionsBuilder<RpgDbContext>();
             optionsBuilder.UseSqlServer(connectionString);
             return new RpgDbContext(optionsBuilder.Options);

@@ -232,6 +232,35 @@ public class CharacterService : ICharacterService
         return true;
     }
 
+    public async Task BulkInsertCharacterStatsFromJsonAsync(string jsonFilePath)
+    {
+        if (string.IsNullOrWhiteSpace(jsonFilePath))
+            throw new ArgumentException("File path cannot be empty.", nameof(jsonFilePath));
+
+        if (!File.Exists(jsonFilePath))
+            throw new FileNotFoundException($"File not found: {jsonFilePath}");
+
+        var jsonContent = await File.ReadAllTextAsync(jsonFilePath);
+        var characterStats = JsonConvert.DeserializeObject<List<CharacterStats>>(jsonContent);
+
+        if (characterStats == null || !characterStats.Any())
+            throw new InvalidOperationException("No character stats found in JSON file.");
+
+        foreach (var stat in characterStats)
+        {
+            var character = await _characterRepository.GetByIdAsync(stat.CharacterId);
+            if (character == null)
+                throw new InvalidOperationException($"Character with ID {stat.CharacterId} not found.");
+
+            var existingStats = await _statsRepository.FindAsync(s => s.CharacterId == stat.CharacterId);
+            if (existingStats.Any())
+                throw new InvalidOperationException($"Character with ID {stat.CharacterId} already has stats defined.");
+        }
+
+        await _statsRepository.AddRangeAsync(characterStats);
+        Console.WriteLine($"Successfully inserted {characterStats.Count} character stats from {jsonFilePath}");
+    }
+
     // CharacterQuest methods
     public async Task<IEnumerable<CharacterQuest>> GetCharacterQuestsAsync(int characterId)
     {
@@ -301,6 +330,41 @@ public class CharacterService : ICharacterService
         return true;
     }
 
+    public async Task BulkInsertCharacterQuestsFromJsonAsync(string jsonFilePath)
+    {
+        if (string.IsNullOrWhiteSpace(jsonFilePath))
+            throw new ArgumentException("File path cannot be empty.", nameof(jsonFilePath));
+
+        if (!File.Exists(jsonFilePath))
+            throw new FileNotFoundException($"File not found: {jsonFilePath}");
+
+        var jsonContent = await File.ReadAllTextAsync(jsonFilePath);
+        var characterQuests = JsonConvert.DeserializeObject<List<CharacterQuest>>(jsonContent);
+
+        if (characterQuests == null || !characterQuests.Any())
+            throw new InvalidOperationException("No character quests found in JSON file.");
+
+        foreach (var quest in characterQuests)
+        {
+            var character = await _characterRepository.GetByIdAsync(quest.CharacterId);
+            if (character == null)
+                throw new InvalidOperationException($"Character with ID {quest.CharacterId} not found.");
+
+            var existingAssignment = await _characterQuestRepository.FindAsync(cq => cq.CharacterId == quest.CharacterId && cq.QuestId == quest.QuestId);
+            if (existingAssignment.Any())
+                throw new InvalidOperationException($"Quest with ID {quest.QuestId} is already assigned to character with ID {quest.CharacterId}.");
+
+            if (string.IsNullOrWhiteSpace(quest.Status))
+                quest.Status = "NotStarted";
+
+            if (quest.StartedDate == default && quest.Status != "NotStarted")
+                quest.StartedDate = DateTime.UtcNow;
+        }
+
+        await _characterQuestRepository.AddRangeAsync(characterQuests);
+        Console.WriteLine($"Successfully inserted {characterQuests.Count} character quests from {jsonFilePath}");
+    }
+
     // CharacterEquipment methods
     public async Task<IEnumerable<CharacterEquipment>> GetCharacterEquipmentAsync(int characterId)
     {
@@ -355,5 +419,34 @@ public class CharacterService : ICharacterService
 
         await _characterEquipmentRepository.DeleteAsync(equipmentToDelete);
         return true;
+    }
+
+    public async Task BulkInsertCharacterEquipmentFromJsonAsync(string jsonFilePath)
+    {
+        if (string.IsNullOrWhiteSpace(jsonFilePath))
+            throw new ArgumentException("File path cannot be empty.", nameof(jsonFilePath));
+
+        if (!File.Exists(jsonFilePath))
+            throw new FileNotFoundException($"File not found: {jsonFilePath}");
+
+        var jsonContent = await File.ReadAllTextAsync(jsonFilePath);
+        var characterEquipment = JsonConvert.DeserializeObject<List<CharacterEquipment>>(jsonContent);
+
+        if (characterEquipment == null || !characterEquipment.Any())
+            throw new InvalidOperationException("No character equipment found in JSON file.");
+
+        foreach (var equipment in characterEquipment)
+        {
+            var character = await _characterRepository.GetByIdAsync(equipment.CharacterId);
+            if (character == null)
+                throw new InvalidOperationException($"Character with ID {equipment.CharacterId} not found.");
+
+            var existingAssignment = await _characterEquipmentRepository.FindAsync(ce => ce.CharacterId == equipment.CharacterId && ce.EquipmentId == equipment.EquipmentId);
+            if (existingAssignment.Any())
+                throw new InvalidOperationException($"Equipment with ID {equipment.EquipmentId} is already assigned to character with ID {equipment.CharacterId}.");
+        }
+
+        await _characterEquipmentRepository.AddRangeAsync(characterEquipment);
+        Console.WriteLine($"Successfully inserted {characterEquipment.Count} character equipment from {jsonFilePath}");
     }
 }

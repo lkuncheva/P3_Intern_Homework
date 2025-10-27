@@ -74,7 +74,7 @@ public class DataSeederService : IDataSeederService
 
         try
         {
-            var characterFilePath = ResolveSampleFilePath("characters.json");
+            var characterFilePath =ResolveSampleFilePath("characters.json");
             if (File.Exists(characterFilePath))
             {
                 await _characterService.BulkInsertCharactersFromJsonAsync(characterFilePath);
@@ -126,7 +126,7 @@ public class DataSeederService : IDataSeederService
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error seeding quests: {ex.Message}");
+            Console.WriteLine($"Error seeding equipment: {ex.Message}");
             if (ex.InnerException != null) Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
             Console.WriteLine($"Base exception: {ex.GetBaseException().Message}");
             Console.WriteLine(ex);

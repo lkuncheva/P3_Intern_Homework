@@ -24,16 +24,19 @@ public interface ICharacterService
     Task<CharacterStats> CreateCharacterStatsAsync(int characterId, CharacterStats stats);
     Task<bool> UpdateCharacterStatsAsync(int characterId, CharacterStats stats);
     Task<bool> DeleteCharacterStatsAsync(int characterId);
+    Task BulkInsertCharacterStatsFromJsonAsync(string jsonFilePath);
 
     // CharacterQuest methods
     Task<IEnumerable<CharacterQuest>> GetCharacterQuestsAsync(int characterId);
     Task<CharacterQuest> AssignQuestToCharacterAsync(int characterId, int questId);
     Task<bool> UpdateQuestStatusAsync(int characterId, int questId, string status);
     Task<bool> RemoveQuestFromCharacterAsync(int characterId, int questId);
+    Task BulkInsertCharacterQuestsFromJsonAsync(string jsonFilePath);
 
     // CharacterEquipment methods
     Task<IEnumerable<CharacterEquipment>> GetCharacterEquipmentAsync(int characterId);
     Task<CharacterEquipment> AssignEquipmentToCharacterAsync(int characterId, int equipmentId);
     Task<bool> ToggleEquipmentStatusAsync(int characterId, int equipmentId);
     Task<bool> RemoveEquipmentFromCharacterAsync(int characterId, int equipmentId);
+    Task BulkInsertCharacterEquipmentFromJsonAsync(string jsonFilePath);
 }
