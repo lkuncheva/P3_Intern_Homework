@@ -6,11 +6,11 @@ namespace RPGManager.Menus;
 
 public class CharacterQuestsMenuHandler
 {
-    private readonly ICharacterService _characterService;
+    private readonly ICharacterQuestService _characterQuestService;
 
-    public CharacterQuestsMenuHandler(ICharacterService characterService)
+    public CharacterQuestsMenuHandler(ICharacterQuestService characterQuestService)
     {
-        _characterService = characterService ?? throw new ArgumentNullException(nameof(characterService));
+        _characterQuestService = characterQuestService ?? throw new ArgumentNullException(nameof(characterQuestService));
     }
 
     public async Task ShowMenuAsync()
@@ -74,7 +74,7 @@ public class CharacterQuestsMenuHandler
 
         try
         {
-            var quests = await _characterService.GetCharacterQuestsAsync(characterId);
+            var quests = await _characterQuestService.GetCharacterQuestsAsync(characterId);
             if (!quests.Any())
             {
                 Console.WriteLine("No quests found for this character.");
@@ -112,7 +112,7 @@ public class CharacterQuestsMenuHandler
 
         try
         {
-            var assignment = await _characterService.AssignQuestToCharacterAsync(characterId, questId);
+            var assignment = await _characterQuestService.AssignQuestToCharacterAsync(characterId, questId);
             Console.WriteLine($"\nQuest assigned successfully! Assignment ID: {assignment.CharacterId}-{assignment.QuestId}");
         }
         catch (Exception ex)
@@ -149,7 +149,7 @@ public class CharacterQuestsMenuHandler
 
         try
         {
-            var success = await _characterService.UpdateQuestStatusAsync(characterId, questId, status);
+            var success = await _characterQuestService.UpdateQuestStatusAsync(characterId, questId, status);
             Console.WriteLine(success ? "\nQuest status updated successfully!" : "\nFailed to update quest status. Check character and quest IDs.");
         }
         catch (Exception ex)
@@ -181,7 +181,7 @@ public class CharacterQuestsMenuHandler
         {
             try
             {
-                var success = await _characterService.RemoveQuestFromCharacterAsync(characterId, questId);
+                var success = await _characterQuestService.RemoveQuestFromCharacterAsync(characterId, questId);
                 Console.WriteLine(success ? "\nQuest removed successfully!" : "\nFailed to remove quest. Check character and quest IDs.");
             }
             catch (Exception ex)
@@ -209,7 +209,7 @@ public class CharacterQuestsMenuHandler
 
         try
         {
-            await _characterService.BulkInsertCharacterQuestsFromJsonAsync(filePath);
+            await _characterQuestService.BulkInsertCharacterQuestsFromJsonAsync(filePath);
         }
         catch (Exception ex)
         {

@@ -43,6 +43,18 @@ public class DependencyConfig
             .As<ICharacterService>()
             .InstancePerLifetimeScope();
 
+        builder.RegisterType<CharacterStatsService>()
+            .As<ICharacterStatsService>()
+            .InstancePerLifetimeScope();
+
+        builder.RegisterType<CharacterQuestService>()
+            .As<ICharacterQuestService>()
+            .InstancePerLifetimeScope();
+
+        builder.RegisterType<CharacterEquipmentService>()
+            .As<ICharacterEquipmentService>()
+            .InstancePerLifetimeScope();
+
         builder.RegisterType<QuestService>()
             .As<IQuestService>()
             .InstancePerLifetimeScope();

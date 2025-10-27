@@ -6,11 +6,11 @@ namespace RPGManager.Menus;
 
 public class CharacterStatsMenuHandler
 {
-    private readonly ICharacterService _characterService;
+    private readonly ICharacterStatsService _characterStatsService;
 
-    public CharacterStatsMenuHandler(ICharacterService characterService)
+    public CharacterStatsMenuHandler(ICharacterStatsService characterStatsService)
     {
-        _characterService = characterService ?? throw new ArgumentNullException(nameof(characterService));
+        _characterStatsService = characterStatsService ?? throw new ArgumentNullException(nameof(characterStatsService));
     }
 
     public async Task ShowMenuAsync()
@@ -70,7 +70,7 @@ public class CharacterStatsMenuHandler
 
         try
         {
-            var stats = await _characterService.GetCharacterStatsAsync(characterId);
+            var stats = await _characterStatsService.GetCharacterStatsAsync(characterId);
             if (stats == null)
             {
                 Console.WriteLine("No stats found for this character.");
@@ -103,7 +103,7 @@ public class CharacterStatsMenuHandler
 
         try
         {
-            var existingStats = await _characterService.GetCharacterStatsAsync(characterId);
+            var existingStats = await _characterStatsService.GetCharacterStatsAsync(characterId);
             bool isUpdate = existingStats != null;
 
             Console.WriteLine($"\n{(isUpdate ? "Update" : "Create")} Character Stats");
@@ -145,12 +145,12 @@ public class CharacterStatsMenuHandler
 
             if (isUpdate)
             {
-                var success = await _characterService.UpdateCharacterStatsAsync(characterId, stats);
+                var success = await _characterStatsService.UpdateCharacterStatsAsync(characterId, stats);
                 Console.WriteLine(success ? "\nCharacter stats updated successfully!" : "\nFailed to update character stats.");
             }
             else
             {
-                var createdStats = await _characterService.CreateCharacterStatsAsync(characterId, stats);
+                var createdStats = await _characterStatsService.CreateCharacterStatsAsync(characterId, stats);
                 Console.WriteLine($"\nCharacter stats created successfully! ID: {createdStats.Id}");
             }
         }
@@ -176,7 +176,7 @@ public class CharacterStatsMenuHandler
         {
             try
             {
-                var success = await _characterService.DeleteCharacterStatsAsync(characterId);
+                var success = await _characterStatsService.DeleteCharacterStatsAsync(characterId);
                 Console.WriteLine(success ? "\nCharacter stats deleted successfully!" : "\nCharacter stats not found.");
             }
             catch (Exception ex)
@@ -204,7 +204,7 @@ public class CharacterStatsMenuHandler
 
         try
         {
-            await _characterService.BulkInsertCharacterStatsFromJsonAsync(filePath);
+            await _characterStatsService.BulkInsertCharacterStatsFromJsonAsync(filePath);
         }
         catch (Exception ex)
         {

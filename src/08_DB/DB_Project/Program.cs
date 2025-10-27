@@ -132,8 +132,8 @@ public class Program
     private static async Task CharacterStatsManagementMenuAsync()
     {
         using var scope = _container!.BeginLifetimeScope();
-        var characterService = scope.Resolve<ICharacterService>();
-        var menuHandler = new CharacterStatsMenuHandler(characterService);
+        var characterStatsService = scope.Resolve<ICharacterStatsService>();
+        var menuHandler = new CharacterStatsMenuHandler(characterStatsService);
 
         await menuHandler.ShowMenuAsync();
     }
@@ -141,8 +141,8 @@ public class Program
     private static async Task CharacterQuestsManagementMenuAsync()
     {
         using var scope = _container!.BeginLifetimeScope();
-        var characterService = scope.Resolve<ICharacterService>();
-        var menuHandler = new CharacterQuestsMenuHandler(characterService);
+        var characterQuestService = scope.Resolve<ICharacterQuestService>();
+        var menuHandler = new CharacterQuestsMenuHandler(characterQuestService);
 
         await menuHandler.ShowMenuAsync();
     }
@@ -150,8 +150,8 @@ public class Program
     private static async Task CharacterEquipmentManagementMenuAsync()
     {
         using var scope = _container!.BeginLifetimeScope();
-        var characterService = scope.Resolve<ICharacterService>();
-        var menuHandler = new CharacterEquipmentMenuHandler(characterService);
+        var characterEquipmentService = scope.Resolve<ICharacterEquipmentService>();
+        var menuHandler = new CharacterEquipmentMenuHandler(characterEquipmentService);
 
         await menuHandler.ShowMenuAsync();
     }

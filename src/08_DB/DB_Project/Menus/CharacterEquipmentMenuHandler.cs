@@ -6,11 +6,11 @@ namespace RPGManager.Menus;
 
 public class CharacterEquipmentMenuHandler
 {
-    private readonly ICharacterService _characterService;
+    private readonly ICharacterEquipmentService _characterEquipmentService;
 
-    public CharacterEquipmentMenuHandler(ICharacterService characterService)
+    public CharacterEquipmentMenuHandler(ICharacterEquipmentService characterEquipmentService)
     {
-        _characterService = characterService ?? throw new ArgumentNullException(nameof(characterService));
+        _characterEquipmentService = characterEquipmentService ?? throw new ArgumentNullException(nameof(characterEquipmentService));
     }
 
     public async Task ShowMenuAsync()
@@ -74,7 +74,7 @@ public class CharacterEquipmentMenuHandler
 
         try
         {
-            var equipment = await _characterService.GetCharacterEquipmentAsync(characterId);
+            var equipment = await _characterEquipmentService.GetCharacterEquipmentAsync(characterId);
             if (!equipment.Any())
             {
                 Console.WriteLine("No equipment found for this character.");
@@ -113,7 +113,7 @@ public class CharacterEquipmentMenuHandler
 
         try
         {
-            var assignment = await _characterService.AssignEquipmentToCharacterAsync(characterId, equipmentId);
+            var assignment = await _characterEquipmentService.AssignEquipmentToCharacterAsync(characterId, equipmentId);
             Console.WriteLine($"\nEquipment assigned successfully! Assignment ID: {assignment.CharacterId}-{assignment.EquipmentId}");
         }
         catch (Exception ex)
@@ -140,7 +140,7 @@ public class CharacterEquipmentMenuHandler
 
         try
         {
-            var success = await _characterService.ToggleEquipmentStatusAsync(characterId, equipmentId);
+            var success = await _characterEquipmentService.ToggleEquipmentStatusAsync(characterId, equipmentId);
             if (success)
             {
                 Console.WriteLine("\nEquipment status toggled successfully!");
@@ -179,7 +179,7 @@ public class CharacterEquipmentMenuHandler
         {
             try
             {
-                var success = await _characterService.RemoveEquipmentFromCharacterAsync(characterId, equipmentId);
+                var success = await _characterEquipmentService.RemoveEquipmentFromCharacterAsync(characterId, equipmentId);
                 Console.WriteLine(success ? "\nEquipment removed successfully!" : "\nFailed to remove equipment. Check character and equipment IDs.");
             }
             catch (Exception ex)
@@ -207,7 +207,7 @@ public class CharacterEquipmentMenuHandler
 
         try
         {
-            await _characterService.BulkInsertCharacterEquipmentFromJsonAsync(filePath);
+            await _characterEquipmentService.BulkInsertCharacterEquipmentFromJsonAsync(filePath);
         }
         catch (Exception ex)
         {
