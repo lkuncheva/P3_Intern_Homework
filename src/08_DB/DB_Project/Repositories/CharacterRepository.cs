@@ -17,6 +17,7 @@ public class CharacterRepository : Repository<Character>, ICharacterRepository
             .Include(c => c.CharacterClass)
             .Include(c => c.CharacterStats)
             .Include(c => c.CharacterEquipment)
+                .ThenInclude(ce => ce.Equipment)
             .Include(c => c.CharacterQuests)
                 .ThenInclude(cq => cq.Quest)
             .FirstOrDefaultAsync(c => c.Id == id);
