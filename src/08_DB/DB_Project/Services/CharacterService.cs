@@ -7,20 +7,10 @@ namespace RPGManager.Services;
 public class CharacterService : ICharacterService
 {
     private readonly ICharacterRepository _characterRepository;
-    private readonly IRepository<CharacterStats> _statsRepository;
-    private readonly IRepository<CharacterQuest> _characterQuestRepository;
-    private readonly IRepository<CharacterEquipment> _characterEquipmentRepository;
 
-    public CharacterService(
-        ICharacterRepository characterRepository,
-        IRepository<CharacterStats> statsRepository,
-        IRepository<CharacterQuest> characterQuestRepository,
-        IRepository<CharacterEquipment> characterEquipmentRepository)
+    public CharacterService(ICharacterRepository characterRepository)
     {
         _characterRepository = characterRepository ?? throw new ArgumentNullException(nameof(characterRepository));
-        _statsRepository = statsRepository ?? throw new ArgumentNullException(nameof(statsRepository));
-        _characterQuestRepository = characterQuestRepository ?? throw new ArgumentNullException(nameof(characterQuestRepository));
-        _characterEquipmentRepository = characterEquipmentRepository ?? throw new ArgumentNullException(nameof(characterEquipmentRepository));
     }
 
     public async Task<Character> CreateCharacterAsync(Character character)
