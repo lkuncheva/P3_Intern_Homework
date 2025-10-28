@@ -3,6 +3,7 @@
 ### Prerequisites
 - .NET 8.0 SDK or later
 - Visual Studio 2022 or Visual Studio Code
+- SSMS 21.5.14
 - Database Server: You need access to a database instance.
 	Default: The project is configured to use SQL Server LocalDB ((localdb)\mssqllocaldb).
 	Alternative: Any compatible SQL Server instance will work.
