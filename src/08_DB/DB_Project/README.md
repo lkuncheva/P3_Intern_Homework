@@ -57,12 +57,19 @@
    ```
 
 5. **Create database and apply migrations**
+   - Option A: Using the Dotnet CLI (Command Line Interface):
    ```bash
    dotnet ef migrations add InitialCreate
    dotnet ef database update
    ```
+   - Option B: Using the Package Manager Console
+   (Use this if you are working within Visual Studio. Open the Package Manager Console window (Tools > NuGet Package Manager > Package Manager Console)):
+   ```
+   PM> Add-Migration InitialCreate
+   PM> Update-Database
+   ```
 
-6. **Run the application**
+7. **Run the application**
    ```bash
    dotnet run
    ```
