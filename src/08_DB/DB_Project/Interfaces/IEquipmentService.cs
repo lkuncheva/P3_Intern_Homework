@@ -16,8 +16,4 @@ public interface IEquipmentService
     Task<bool> UpdateEquipmentBonusesAsync(int id, int attackBonus, int defenseBonus);
 
     Task<bool> DeleteEquipmentAsync(int equipmentId);
-
-    Task<bool> AssignEquipmentToCharacterAsync(int characterId, int equipmentId);
-    Task<bool?> ToggleEquipmentStatusAsync(int characterId, int equipmentId);
-    Task<IEnumerable<Equipment>> GetCharacterEquipmentAsync(int characterId);
 }

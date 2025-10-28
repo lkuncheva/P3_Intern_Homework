@@ -1,6 +1,6 @@
 ﻿using RPGManager.Models;
 
-namespace RPGManager.Services;
+namespace RPGManager.Interfaces;
 
 public interface ICharacterService
 {

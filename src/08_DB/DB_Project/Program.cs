@@ -4,8 +4,6 @@ using RPGManager.Configuration;
 using RPGManager.Data;
 using RPGManager.Interfaces;
 using RPGManager.Menus;
-using RPGManager.Models;
-using RPGManager.Services;
 
 namespace RPGManager;
 
@@ -92,12 +90,6 @@ public class Program
             catch (Exception ex)
             {
                 Console.WriteLine($"\nError: {ex.Message}");
-            }
-
-            if (!exit)
-            {
-                Console.WriteLine("\nPress any key to continue...");
-                Console.ReadKey();
             }
         }
     }

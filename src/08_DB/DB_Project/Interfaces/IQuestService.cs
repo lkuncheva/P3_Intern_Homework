@@ -1,6 +1,6 @@
 ﻿using RPGManager.Models;
 
-namespace RPGManager.Services;
+namespace RPGManager.Interfaces;
 
 public interface IQuestService
 {
@@ -16,8 +16,4 @@ public interface IQuestService
     Task<bool> UpdateQuestRewardsAsync(int questId, int newGold, int newExperience);
 
     Task<bool> DeleteQuestAsync(int questId);
-
-    Task<bool> AssignQuestToCharacterAsync(int characterId, int questId);
-    Task<bool> UpdateQuestStatusAsync(int characterId, int questId, string status);
-    Task<IEnumerable<Quest>> GetCharacterQuestsAsync(int characterId);
 }
